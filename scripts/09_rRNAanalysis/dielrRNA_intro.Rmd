@@ -1,0 +1,153 @@
+---
+title: "dielrRNA analysis"
+author: "Alex Linz"
+date: "Wednesday, November 25, 2015"
+output: html_document
+---
+```{r, echo=TRUE}
+library(OTUtable)
+path2shared <- "C:/Users/Alex/Desktop/dielrRNA/qc.dielrRNA.an.unique_list.shared"
+otu_table <- clean_shared(path2shared)
+#order times chronologically
+otu_table <- otu_table[,c(3,2,4,1)]
+#convert to proportional data instead of rarefying. Because we have so few reads, rarefying will cause a lot of lost data. Also this is not really tag data, so there's not much precedent here.
+otu_table <- prop.table(otu_table, 2)
+
+#Only need to write the file once
+#write.csv(otu_table, file="C:/Users/Alex/Desktop/dielrRNA/dielrRNA_otutable.csv", quote=F, row.names=T)
+
+path2tax <- "C:/Users/Alex/Desktop/dielrRNA/qc.dielrRNA.taxonomy"
+#tax <- clean_taxonomy(path2tax, otu_table)
+
+#This command does not work because the taxonomy headers have a lot of info besides OTU name. This comes from how I tricked mothur into accepting 4 fastq files instead of contigs. I will curate the taxonomy file manually instead.
+
+tax <- read.table(path2tax, header=F, row.names=1)
+#reduce rownames to just the otu
+
+split1 <- strsplit(rownames(tax), "_")
+stringend <- c()
+for(i in 1:length(split1)){
+  stringend[i] <- split1[[i]][9]
+}
+
+otu <- substr(stringend, start=1, stop=6)
+rownames(tax) <- otu
+colnames(tax) <- c("Taxonomy")
+
+#write.csv(tax, file="C:/Users/Alex/Desktop/dielrRNA/dielrRNA_parsed_taxonomy.csv", quote=F, row.names=T)
+#Opened file in excel to quickly order OTUs here.
+
+path2newtax <- "C:/Users/Alex/Desktop/dielrRNA/dielrRNA_parsed_taxonomy.csv"
+tax <- expand_taxa(path2newtax)
+#write.csv(tax, file="C:/Users/Alex/Desktop/dielrRNA/dielrRNA_expanded_taxonomy.csv", quote=T, row.names=T)
+
+```
+
+Now that the environment is set up, I want to do some quick analyses:
+- phylum breakdown
+- top 10 most abundant groups
+- when do the abundant groups have maxima?
+
+```{r, echo=TRUE}
+library(ggplot2)
+taxonomy <- tax #So I can just insert code written for the bog tags
+
+combine_otus <- function(level, table, taxonomy){
+  key <- match(level, colnames(taxonomy))
+  column <- c()
+  for(i in 1:dim(taxonomy)[1]){
+    column[i] <- paste(taxonomy[i, 1:key], collapse = ";")
+  }
+  unique_groups <- unique(column)
+  new_table <- rep(NA, dim(table)[2])
+  for(i in 1:length(unique_groups)){
+    members <- which(column == unique_groups[i])
+    if(length(members) > 1){
+      member_abun <- colSums(table[members,])
+      new_table <- rbind(new_table, member_abun)
+    }else{
+      member_abun <- table[members,]
+      new_table <- rbind(new_table, member_abun)
+    }
+  }
+  new_table <- new_table[2:dim(new_table)[1],]
+  rownames(new_table) <- unique_groups
+  colnames(new_table) <- colnames(table)
+  new_table <- data.frame(new_table)
+  return(new_table)
+}
+
+#Modified combine_otus() to allow only 1 OTU in a phylum. Will change this in package.
+phylum_table <- combine_otus("Phylum", otu_table, taxonomy)
+phylum_table <- reduce_names(phylum_table)
+
+#Sum total observations of each phylum in the full dataset and sort by abundance
+totals <- rowSums(phylum_table)
+totals <- sort(totals)
+
+#Remove the "p__" phylum designation from phylum names. This looks better for plotting.
+get.names <- strsplit(names(totals), "p__")
+phyla.names <- c()
+for(i in 1:length(get.names)){
+  phyla.names[i] <- get.names[[i]][2]
+}
+phyla.names[which(is.na(phyla.names) == T)] <- "unclassified"
+
+#Set up a dataframe for plotting in ggplot2. Set the phyla.names to factors, with levels in order of abundance.
+phylum_totals <- data.frame(phyla.names, totals)
+phylum_totals$phyla.names <- factor(phylum_totals$phyla.names, levels = phylum_totals$phyla.names[order(phylum_totals$totals)])
+
+#Plot as a bar graph
+ggplot(data=phylum_totals, aes(x = phyla.names, y = totals)) + geom_bar(stat = "identity", fill = "grey", colour="black") + labs(x = NULL, y = "Sum of proportions of each sample") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 12, colour = "black"), axis.title = element_text(size = 15, vjust=1.2), plot.title = element_text(size = 20), axis.text.y = element_text(colour="black")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+#Now make stacked chart over time
+library(reshape2)
+phylum_table2 <- phylum_table
+phylum_table2$phyla <- rownames(phylum_table)
+phyla_by_time <- melt(phylum_table2, direction="long")
+phyla_by_time$phyla <- factor(phyla_by_time$phyla, levels=rownames(phylum_table))
+
+pal15 = c("#85e738", "#3885e7", "#badbad", "#c1f5ba", "#ffde17", "#afeeee", "#fce580", "#4dff4d", "#ff8400", "#8894ae", "#f3de8a", "#edfb48", "#929292", "#3885e7", "#ff8400")
+
+ggplot(data=phyla_by_time, aes(x=variable, y=value, fill=phyla)) + geom_bar(stat="identity", position = "fill") + labs(x = NULL, y = "Proportion of Observed Reads") + theme(axis.text.x = element_text(size = 12, angle = 90, color="black"), axis.text.y = element_text(size=14, color="black"), axis.title = element_text(size = 15, vjust=2), legend.title = element_blank(), legend.text = element_text(size = 16)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))  + scale_y_continuous(expand = c(0,0))+ scale_fill_manual(values=rev(pal15))
+```
+
+Print abundance of top 10 most abundant OTUs in each timepoint
+
+```{r, echo=TRUE, fig.width=10, fig.height=6}
+#Replace otu names with taxonomies so that they make some sort of sense
+otu_taxa <- c()
+for(i in 1:260){
+  otu_taxa[i] <- paste(taxonomy[i,], collapse=";") 
+}
+
+rownames(otu_table) <- otu_taxa
+
+morning <- otu_table[,1]
+topmorning<- morning[order(morning, decreasing=T)[1:10]]
+plot.morning <- data.frame(topmorning, names(topmorning))
+colnames(plot.morning) <- c("Abundance", "OTU")
+plot.morning$OTU <- factor(plot.morning$OTU, levels=names(topmorning))
+ggplot(data=plot.morning, aes(x=OTU, y=Abundance )) + geom_bar(stat="identity") + coord_flip() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + ggtitle("Abundant rRNA at 6AM")
+
+afternoon <- otu_table[,2]
+topafternoon<- afternoon[order(afternoon, decreasing=T)[1:10]]
+plot.afternoon <- data.frame(topafternoon, names(topafternoon))
+colnames(plot.afternoon) <- c("Abundance", "OTU")
+plot.afternoon$OTU <- factor(plot.afternoon$OTU, levels=names(topafternoon))
+ggplot(data=plot.afternoon, aes(x=OTU, y=Abundance )) + geom_bar(stat="identity") + coord_flip() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + ggtitle("Abundant rRNA at 2PM")
+
+evening <- otu_table[,3]
+topevening<- evening[order(evening, decreasing=T)[1:10]]
+plot.evening <- data.frame(topevening, names(topevening))
+colnames(plot.evening) <- c("Abundance", "OTU")
+plot.evening$OTU <- factor(plot.evening$OTU, levels=names(topevening))
+ggplot(data=plot.evening, aes(x=OTU, y=Abundance )) + geom_bar(stat="identity") + coord_flip() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + ggtitle("Abundant rRNA at 6PM")
+
+midnight <- otu_table[,4]
+topmidnight<- midnight[order(midnight, decreasing=T)[1:10]]
+plot.midnight <- data.frame(topmidnight, names(topmidnight))
+colnames(plot.midnight) <- c("Abundance", "OTU")
+plot.midnight$OTU <- factor(plot.midnight$OTU, levels=names(topmidnight))
+ggplot(data=plot.midnight, aes(x=OTU, y=Abundance )) + geom_bar(stat="identity") + coord_flip() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + ggtitle("Abundant rRNA at 12AM")
+```
