@@ -42,18 +42,30 @@ Ensure the following data are available:
 
 Ensure the following folders are accessible, as data will be stored in these folders:
 
-* `../../derivedData/mapping/competitive/bamFiles` - results of the mapping will go here
+* `../../derivedData/mapping/uncompetitive/bamFiles` - results of the mapping will go here. Referred to as `mapFolder`.
 
-* `../../derivedData/mapping/competitive/readCounts` - total read counts will go here
+* `../../derivedData/mapping/uncompetitive/readCounts` - total read counts will go here. Referred to as `countFolder`.
 
-* `../../derivedData/mapping/competitive/RPKM` - normalized read counts will go here
+* `../../derivedData/mapping/uncompetitive/RPKM` - normalized read counts will go here. Referred to as `normFolder`.
 
-* `../../derivedData/mapping/uncompetitive/bamFiles` - results of the mapping will go here
+* `../../derivedData/mapping/competitive/bamFiles` - results of the mapping will go here. Referred to as `mapFolder`.
 
-* `../../derivedData/mapping/uncompetitive/readCounts` - total read counts will go here
+* `../../derivedData/mapping/competitive/readCounts` - total read counts will go here. Referred to as `countFolder`.
 
-* `../../derivedData/mapping/uncompetitive/RPKM` - normalized read counts will go here
+* `../../derivedData/mapping/competitive/RPKM` - normalized read counts will go here. Referred to as `normFolder`.
 
 Data Processing
 --
 In order for to properly count mapped reads, the GFF files must be in the proper format. The script `gffValidator` will analyze all GFF files in the `gffFolder` folder, and generate a file `gffFolder/all.out` describing errors in the GFF files. The GFF files must then be manually corrected.
+
+Uncompetitive Mapping of Reads
+--
+
+### Mapping
+This section describes the steps to map metatranscriptomic reads to the reference genomes using BWA. __This section describes uncompetitive mapping. In this approach, each genome is processed individually, and reads may may to multiple genomes.__ For convenience, the script `uncompReadMapping.pl` will execute the pipeline with a single command. The script maps each metatranscriptome to each reference genome.
+
+### Counting
+This section describes the steps to count the metatranscriptomic reads which mapped to each gene in a reference genome. For convenience, the script `readCountsFEATURE.pl` will execute the pipeline with a single command. The script counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each (metatranscriptome, genome) pair.
+
+### Normalization
+This section describe the process for normalizing the read counts, as well as procedures for producing some other statistics. For each genome, the script `processUncompReadCounts.py` computes the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
