@@ -5,7 +5,7 @@ URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)
 URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentatation and analysis by Joshua J. Hamilton  
+Documentation and analysis by Joshua J. Hamilton  
 URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)  
 
 Overview
