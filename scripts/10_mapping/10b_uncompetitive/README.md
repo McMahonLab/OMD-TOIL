@@ -54,7 +54,7 @@ The inputs to the wrapper function are as follows:
 Counting of Mapped Reads: Uncompetitive
 --
 
-This section describes the steps to count the metatranscriptomic reads which mapped to each gene in a reference genome using BWA. For convenience, the script `readCountsFEATURE.pl` will execute the pipeline with a single command. The script takes as input the directories described below, and counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each (metatranscriptome, genome) pair:
+This section describes the steps to count the metatranscriptomic reads which mapped to each gene in a reference genome using BWA. For convenience, the script `uncompReadCountsFEATURE.pl` will execute the pipeline with a single command. The script takes as input the directories described below, and counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each (metatranscriptome, genome) pair:
 
     `/usr/local/bin/htseq-count -f bam -r pos -s no -a 0 -t FEATURE -i locus_tag -m intersection-strict -o outputFolder/mt-genome.sam mapFolder/mt-genome.sorted.bam gffFolder/genome.gff > outputFolder/mt-genome.out`
 
@@ -87,7 +87,7 @@ The output of the script is a tab-delimited `.FEATURE.out` file giving the locus
 
 The script is called as follows:
 
-    `perl readCounts.pl`
+    `perl uncompReadCountsFEATURE.pl`
 
 The inputs to the wrapper function are as follows:
 
