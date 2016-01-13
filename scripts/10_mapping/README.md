@@ -34,22 +34,26 @@ Ensure the following software is installed:
 
 Ensure the following data are available:  
 
-* `\rawData\sample\rRNA_removal\sample_non_rRNA.fastq`, where `sample` is the unique identifier for the sample (e.g., ME150256). One such file should exist for each set of metatranscriptomic reads you which to map.
+* `../../rawData/sample/rRNA_removal/sample_non_rRNA.fastq`, where `sample` is the unique identifier for the sample (e.g., ME150256). One such file should exist for each set of metatranscriptomic reads you which to map. The path `../../rawData/` is referred throughout this documentation as `mtFolder`.
 
-* `\rawData\refGenomes\fna` -  a folder containing all reference genomes to be mapped. In FASTA nucleotide format (`file.fna`). __Note__: The FASTA nucleotide sequence for the internal standard should also be included here.
+* `../../rawData/refGenomes/fna` -  a folder containing all reference genomes to be mapped. In FASTA nucleotide format (`file.fna`). __Note__: The FASTA nucleotide sequence for the internal standard should also be included here. This folder is referred throughout this documentation as `genomeFolder`.
 
-* `\rawData\refGenomes\gff` -  a folder containing all GFF files of all reference genomes to be mapped. In FASTA nucleotide format. __Note__: A dummy GFF file for the internal standard should also be included here.
+* `../../rawData/refGenomes/gff` -  a folder containing all GFF files of all reference genomes to be mapped. In FASTA nucleotide format. __Note__: A dummy GFF file for the internal standard should also be included here. This folder is referred throughout this documentation as `gffFolder`.
 
 Ensure the following folders are accessible, as data will be stored in these folders:
 
-* `\derivedData\mapping\competitive\bamFiles` - results of the mapping will go here
+* `../../derivedData/mapping/competitive/bamFiles` - results of the mapping will go here
 
-* `\derivedData\mapping\competitive\readCounts` - total read counts will go here
+* `../../derivedData/mapping/competitive/readCounts` - total read counts will go here
 
-* `\derivedData\mapping\competitive\RPKM` - normalized read counts will go here
+* `../../derivedData/mapping/competitive/RPKM` - normalized read counts will go here
 
-* `\derivedData\mapping\uncompetitive\bamFiles` - results of the mapping will go here
+* `../../derivedData/mapping/uncompetitive/bamFiles` - results of the mapping will go here
 
-* `\derivedData\mapping\uncompetitive\readCounts` - total read counts will go here
+* `../../derivedData/mapping/uncompetitive/readCounts` - total read counts will go here
 
-* `\derivedData\mapping\uncompetitive\RPKM` - normalized read counts will go here
+* `../../derivedData/mapping/uncompetitive/RPKM` - normalized read counts will go here
+
+Data Processing
+--
+In order for to properly count mapped reads, the GFF files must be in the proper format. The script `gffValidator` will analyze all GFF files in the `gffFolder` folder, and generate a file `gffFolder/all.out` describing errors in the GFF files. The GFF files must then be manually corrected.
