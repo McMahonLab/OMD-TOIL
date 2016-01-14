@@ -8,12 +8,77 @@ All rights reserved.
 Documentation and analysis by Joshua J. Hamilton  
 URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)  
 
-Mapping of Reads: Competitive
+Mapping and Counting of Reads: Competitive
 --
+This section describes the steps to map and count metatranscriptomic reads to the reference genomes. __This section describes competitive mapping, in which reads are mapped to all reference genomes simultaneously. This enables identification of reads which map uniquely to a single genome.__
 
+For convenience, the script `compReadMapping.pl` will execute the pipeline with a single command. The script takes as input the directories described below, and maps each metatranscriptome to each collection of reference genomes. The script also counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each metatranscriptome via the following commands:
 
-Counting of Mapped Reads: Competitive
---
+1. Concatenate the individual `fasta` and `gff` files. A single file is required for mapping and downstream counting:
+
+    `cat gffFolder/*.gff > gffFolder/merged.out; mv gffFolder/merged.out gffFolder/merged.gff`
+
+    `cat genomeFolder/*.gff > genomeFolder/merged.out; mv genomeFolder/merged.out genomeFolder/merged.fna`
+
+2. Index the reference genomes.
+
+    `bwa index -p genomeFolder/merged -a is genomeFolder/merged.fna`
+
+3. Map the metatranscriptomes to the reference genomes. For each metatranscriptome `sample_non_rRNA.fastq` and reference genome `genome.fna`:
+
+    `bwa mem -t numProcs genomeFolder/merged mtFolder/sample_non_rRNA.fastq > mapFolder/sample.sam`
+
+    where `numProcs` specifies the number of processors. Zissou has 32, please don't use all of them.
+
+4. Manipulate the ouptut. Convert to BAM, sort, and index. Delete SAM and unsorted BAM files to save space. For each `sample-genome.sam` file:
+
+    `samtools view -b  -S -o sample.bam sample.sam`
+
+    `samtools sort -o sample.sorted.bam -O bam -T /temp/sample sample.bam`
+
+    `samtools index sample.sorted.bam`
+
+    `rm sample.sam`
+
+    `rm sample.bam`
+
+5.  Count the reads which uniquely map to each `feature` type (CDS, rRNA, tRNA, other RNA) in our collection of reference genomes:
+
+    `/usr/local/bin/htseq-count -f bam -r pos -s no -a 0 -t feature -i locus_tag -m intersection-strict -o countFolder/mt.feature.sam mapFolder/mt.sorted.bam gffFolder/merged.gff > countFolder/mt.feature.out`
+
+The script is called as follows:
+
+    `perl compReadCounts.pl`
+
+__Note:__ The script is currently hard-coded to use the folder structure described in this repo. The script also specifies use of 30 processors.
+
+The inputs to the wrapper function are as follows:
+
+| Argument | Description  |
+|---|---|
+| mtFolder | location of the metatranscriptome reads to be mapped |
+| genomeFolder | location of the reference genomes |
+| gffFolder | location of the gff files for the reference genomes |
+| mapFolder | desired output location of the mapped reads |
+| countFolder | location to store read counts for each genome |
+| numProcs | number of processors to use for mapping |
+
+and flags to `htseq-count` are defined as follows:
+
+| Flag | Description  |
+|---|---|
+| -f bam | mapped reads are stored in a `bam` file |
+| -r pos | `bam` file has been sorted by position along the genome |
+| -s no | reads are not strand-specific (e.g., they are from cDNA and can match to the same or opposite strand as the gene) |
+| -t feature | type of feature to look for, options available in the the `gff` file |
+| -i locus_tag | label to apply to each gene, options available in the the `gff` file |
+| -m intersection-strict | mapped reads must fully lie within a single gene |
+| -o | location of output `sam` file|
+| > | location of file with read counts |
+
+Additional info about these flags is available in the `htseq-count` [documentation](http://www-huber.embl.de/HTSeq/doc/count.html#count) and the `GFF` [file specification](http://gmod.org/wiki/GFF2).
+
+The output of the script is a tab-delimited `.feature.out` file giving the locus tag and number of mapped reads for each metatranscriptome.
 
 
 Processing of Mapped Reads: Competitive
