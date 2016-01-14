@@ -9,7 +9,7 @@ Overview
 --
 During August 20-21, 2015, the McMahon Lab carried out a 24 hour sampling of Lake Mendota. This repo describes the data and analysis associated with this expedition, known as OMD-TOIL (Operation Mendota Drain: Transcriptomics of Inland Lakes).
 
-Samples were collected approximately every two hours from 6am on August 20 to 6am on August 21. A subset of samples were subject to RNA extraction, RNA depletion, spiking with an internal standard, and sent to the [UW Biotech Center](https://www.biotech.wisc.edu/) for sequencing. Resulting sequences were subject to computational rRNA removal and downstream analysis.
+Samples were collected approximately every two hours from 6am on August 20 to 6am on August 21. A subset of samples were subject to RNA extraction, rRNA depletion, spiking with an internal standard, and sent to the [UW Biotech Center](https://www.biotech.wisc.edu/) for sequencing. Resulting sequences were subject to computational rRNA removal and downstream analysis.
 
 This repository ('repo') describes the experimental and analytical procedures associated with this project.
 
@@ -24,11 +24,11 @@ This repo describes the following analyses. Clicking on each link will take you 
 1. Sample collection
 2. Internal standard addition
 3. Sample RNA extraction
-4. cDNA synthesis & mRNA removal
+4. cDNA synthesis & rRNA removal
 5. Library preparation
 6. DNA sequencing
 7. Quality-filtering & trimming
-8. rRNA removal
+8. rRNA removal in silico
 9. rRNA analysis
 10. [Mapping](scripts/10_mapping/README.md)  
   10a. [Validation of GFF files](scripts/10_mapping/10a_gffValidation/README.md)  
