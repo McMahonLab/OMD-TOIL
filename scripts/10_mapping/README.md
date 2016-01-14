@@ -69,3 +69,15 @@ This section describes the steps to count the metatranscriptomic reads which map
 
 ### Normalization
 This section describe the process for normalizing the read counts, as well as procedures for producing some other statistics. For each genome, the script `processUncompReadCounts.py` computes the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
+
+Competitive Mapping of Reads
+--
+
+### Mapping
+This section describes the steps to map metatranscriptomic reads to the reference genomes using BWA. __This section describes competitive mapping, in which reads are mapped to all reference genomes simultaneously. This enables identification of reads which map uniquely to a single genome.__ For convenience, the script `compReadMapping.pl` will execute the pipeline with a single command. The script maps each metatranscriptome to each reference genome.
+
+### Counting
+This section describes the steps to count the metatranscriptomic reads which mapped to each gene in a reference genome. For convenience, the script `compReadCountsFEATURE.pl` will execute the pipeline with a single command. The script counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each (metatranscriptome, genome) pair.
+
+### Normalization
+This section describe the process for normalizing the read counts, as well as procedures for producing some other statistics. For each genome, the script `processCompReadCounts.py` computes the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
