@@ -48,7 +48,7 @@ When submitting a pull request, please adhere to the following guidelines:
 * __Follow the proper file structure__, as described in the Table of Contents section.
 * __All files should be text-based__. Git cannot track changes made to binary file formats such as doc, xls, pdf, etc.
 * __Each set of scripts should be accompanied by a README file__, which contains the information described below. We recommend using [MarkDown](https://help.github.com/articles/markdown-basics/), as it renders nicely on GitHub.
-* __Data are not to be stored in this repo__. Instead, upload your data to `/home/shared/OMD-TOIL/data` on Zissou, and indicate these data in your pull request. The data will be moved to `data_lakes` and symbolic links created.
+* __Data are not to be stored in this repo__. Instead, upload your data to `/home/shared/OMD-TOIL/data` on Zissou, and indicate these data in your pull request. The data will be moved to `data_lakes` and symbolic links created. Alternatively, you may wish to retain your data files in your local branch of the repo; in that case, you may indicate these data files in a [.gitignore](https://help.github.com/articles/ignoring-files/) file committed in your local repository.
 * __Update the master README.md file__ with a new Table of Contents entry and link.
 
 Contents of a Good README File
