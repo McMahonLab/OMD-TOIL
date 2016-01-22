@@ -1,0 +1,19 @@
+Event Name: TOIL-OMD 3.0,,,,,,,,,,,
+Project Manager: Francisco Moya,,,,,,,,,,,
+Date: 8/20/15,,,,,,,,,,,
+"Instructions: Time reflects first biomass-for-RNA sampling point. Secchi, PAR, and YSI measurements must be taken before RNA collection. Use filtered water for the following samples and unfiltered water for the last two samples.",,,,,,,,,,,
+,,,,,,Filtered Water,,,,Unfiltered Water,
+Field Manager,Time,Secchi,PAR,YSI,RNA,NO2,TDN/TDP/NH4/Noy,Urea,Polyamines,TN/TP,Cyanotoxins
+Ben,6:08,Y,Y,None,Y,Y,Y,Y,Y,Y,Y
+Ben,8:08,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y
+Ben,10:08,Y,Y,None,Y,Y,Y,Y,Y,Y,Y
+Josh,12:08,Y,Y,None,Y,Y,Y,Y,Y,Y,Y
+Josh,14:08,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y
+Josh,16:08,Y,Y,,Y,Y,Y,Y,Y,Y,Y
+Sam,18:08,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y
+Sam,20:08,Y,Y,,Y,Y,Y,Y,Y,Y,Y
+Sam,22:08,Y,Y,,Y,Y,Y,Y,Y,Y,Y
+Pancho,0:08,,,Y,Y,Y,Y,Y,Y,Y,Y
+Pancho,2:08,,,Y,Y,Y,Y,Y,Y,Y,Y
+Pancho,4:08,,,,Y,Y,Y,Y,Y,Y,Y
+Pancho,6:08,,,,,,,,,,

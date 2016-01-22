@@ -1,0 +1,24 @@
+,,,,,Secchi,,
+Date,Time,Sample,Cloud Cover,Person,Down(m),Up(m),Notes
+20-Aug,6:00 AM,1,Yes,Ben,1.5,1.5,
+,,,,Katy,1.75,1.5,
+20-Aug,8:40 AM,2,Yes,Katy,1.75,2.0,
+,,,,Ben,2,1.75,
+20-Aug,,3,,Michael,2.5,2.0,"Choppy, but a lot less so. Did not drift at all. Drifted East in both time 1 and 2"
+,,,,,,,
+20-Aug,11:56 AM,4,Varying clouds,Josh,2.0,2.0,"Being pulled by wind, moved a little East"
+,,,,,,,
+20-Aug,1:22 PM,5,Cloudy,Josh,2.0,1.75,
+,,,,Kylie,1.25,1.25,
+20-Aug,3:37 PM,6,Partly Cloudy/Mostly sunny,Kylie,1.0,1.5,
+,3:44 PM,,,Josh,1.5,1.0,
+20-Aug,5:35 PM,7,Slight,Sam,1.75,1.75,
+,,,,Josh,1.80,1.80,
+20-Aug,7:41 PM,8,None,Sam,1.5,1.66,
+,,,,Josh,1.6,1.9,
+20-Aug,9:38 PM,9,None,Alex,1.5,1.25,
+,,,,Sam,1.3,0.8,
+20-Aug,,10,,,,,No data 
+,,,,,,,
+20-Aug,6:51 AM,13,Partially Cloudy,Pamela,1.75,1.75,
+,,,,Pancho,1.75,1.5,
