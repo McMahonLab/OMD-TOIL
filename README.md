@@ -67,3 +67,5 @@ Repo Structure
 --
     project
     |- README                                             # Overview of the repo and its contents
+    ||- scripts						  
+    ||- metadata					  # Metadata collected at each sampling timepoint

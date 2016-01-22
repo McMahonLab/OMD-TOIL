@@ -1,0 +1,99 @@
+Sample,Timepoint,Depth_profile,Light (PAR),Cloud cover,People,Notes,Date
+1,5:52 AM,0 (Surface),0.69,Yes; No sun,Ben,We forgot the YSI,20-Aug
+,,1,0.25,,Katy,,20-Aug
+,,2,0.12,,,,20-Aug
+,,3,0.11,,,,20-Aug
+,,4,0.05,,,,20-Aug
+,,5,0.03,,,,20-Aug
+,,6,0.02,,,,20-Aug
+,6:40 AM,0,21.88,Cloudy,,,20-Aug
+,,1,8.15,,,,20-Aug
+,,2,4.78,,,,20-Aug
+,,3,4.03,,,,20-Aug
+,,4,2.37,,,,20-Aug
+,,5,1.96,,,,20-Aug
+,,6,1.49,,,,20-Aug
+2,8:03 AM,0,297.1,Yes,Ben,Rainbow,20-Aug
+,,1,141.21,,,,20-Aug
+,,2,46.75,,,,20-Aug
+,,3,25.93,,,,20-Aug
+,,4,16.67,,,,20-Aug
+,,5,10.62,,,,20-Aug
+,,6,6.76,,,,20-Aug
+,8:38 AM,0,479,Sun,,,20-Aug
+,,1,184.33,,,,20-Aug
+,,2,111.39,,,,20-Aug
+,,3,83.06,,,,20-Aug
+,,4,35.38,,,,20-Aug
+,,5,17.62,,,,20-Aug
+,,6,8.25,,,,20-Aug
+3,10:04 AM,0,1875.2,Sunny,Ben,Sunny when started,20-Aug
+,,1,439.3,,,(Sunny: 805.7),20-Aug
+,,2,106.38,,,Cloud cover (Sunny: 402.0),20-Aug
+,,3,123.46,,,Sunny Again,20-Aug
+,,4,110.28,,,,20-Aug
+,,5,66.62,,,,20-Aug
+,,6,33.64,,,,20-Aug
+,10:48 AM,0,535.1,Complete 95% Cloud cover,,Sample #3,20-Aug
+,,1,140.84,,,,20-Aug
+,,2,74.12,,,,20-Aug
+,,3,38.81,,,,20-Aug
+,,4,24.43,,,,20-Aug
+,,5,14.98,,,,20-Aug
+,,6,9.96,,,,20-Aug
+4,11:49 AM,0,2128,"Sunny, Variable clouds",Josh,,20-Aug
+,,1,1110.9,,Michael,,20-Aug
+,,2,576.8,,,,20-Aug
+,,3,327.7,,,,20-Aug
+,,4,259.2,,,Varying Cloudiness,20-Aug
+,,5,269.1,,,Varying Cloudiness,20-Aug
+,,6,83.63,,,,20-Aug
+5,1:13 PM,0,2613,Mostly Cloud,Josh,A brief sunshine at this reading,20-Aug
+,,1,437.9,,,Cloudy,20-Aug
+,,2,247.2,,,Cloudy,20-Aug
+,,3,90.58,,,Cloudy,20-Aug
+,,4,43.68,,,Cloudy,20-Aug
+,,5,25.05,,,Cloudy,20-Aug
+,,6,39.00,,,Cloudy,20-Aug
+6,3:37 PM,0,1809.7,Partly cloudy/ mostly sunny,Josh,Sunny/ Mostly sunny,20-Aug
+,,1,836.6,,,Sunny/ Mostly sunny,20-Aug
+,,2,442.0,,,Sunny/ Mostly sunny,20-Aug
+,,3,153.61,,,Sunny/ Mostly sunny,20-Aug
+,,4,77.07,,,Sunny/ Mostly sunny,20-Aug
+,,5,38.28,,,Sunny/ Mostly sunny,20-Aug
+,,6,34.67,,,Sunny/ Mostly sunny,20-Aug
+7,5:25 PM,0,695.8,None,Sam,,20-Aug
+,,1,496.4,,,,20-Aug
+,,2,214.2,,,,20-Aug
+,,3,101.27,,,,20-Aug
+,,4,51.19,,,,20-Aug
+,,5,26.34,,,,20-Aug
+,,6,14.41,,,,20-Aug
+8,7:35 PM,0,660.70,None,Sam,,20-Aug
+,,1,26.43,,,,20-Aug
+,,2,10.76,,,,20-Aug
+,,3,4.94,,,,20-Aug
+,,4,2.48,,,,20-Aug
+,,5,1.23,,,,20-Aug
+,,6,0.66,,,,20-Aug
+9,9:40 PM,0,0.02,None,,,20-Aug
+,,1,0.02,,,,20-Aug
+,,2,0.02,,,,20-Aug
+,,3,0.03,,,,20-Aug
+,,4,0.02,,,,20-Aug
+,,5,0.02,,,,20-Aug
+,,6,0.02,,,,20-Aug
+10,,0,,,,No data on sheet ,8/20-8/21/15
+,,1,,,,,
+,,2,,,,,
+,,3,,,,,
+,,4,,,,,
+,,5,,,,,
+,,6,,,,,
+13,6:43 AM,0,45.81,,Pancho,,21-Aug
+,,1,19.28,,,,21-Aug
+,,2,9.87,,,,21-Aug
+,,3,5.15,,,,21-Aug
+,,4,2.89,,,,21-Aug
+,,5,1.61,,,,21-Aug
+,,6,0.90,,,,21-Aug
