@@ -22,14 +22,19 @@ import re
 ### Static folder structure
 ################################################################################
 # Define fixed input and output files
-genomeFolder = '../../../rawData/refGenomes/fna'
-gffFolder = '../../../rawData/refGenomes/gff'
+genomeFolder = '../../../data/refGenomes/fna'
+gffFolder = '../../../data/refGenomes/gff'
 metadataFolder = '../../../metadata'
-sampleFolder = '../../../rawData/'
-countFolder = '../../../derivedData/mapping/uncompetitive/readCounts'
-normFolder = '../../../derivedData/mapping/uncompetitive/RPKM'
+sampleFolder = '../../../data/rawData/'
+countFolder = '../../../data/derivedData/mapping/uncompetitive/readCounts'
+normFolder = '../../../data/derivedData/mapping/uncompetitive/RPKM'
 stdName = 'pFN18A_DNA_transcript'
 
+# Check that the new output directory exists and creat if it doesn't
+if not os.path.exists(normFolder):
+        print "Creating output directory\n"
+        os.makedirs(normFolder)
+    
 #%%#############################################################################
 ### Step 0 - Populate MT read frame. Create empty dataframes.
 ################################################################################
@@ -42,13 +47,12 @@ for mt in os.listdir(sampleFolder):
     else:
        mtList.append(mt)
 
-
 # Read in list of genomes. Ignore internal standard genome.
 genomeList = []
 for genome in os.listdir(genomeFolder):
     if stdName in genome or genome.startswith('.'):
         next
-    else:
+    elif genome.endswith('.fna'):
        genomeList.append(genome)
 
 genomeList = [genome.replace('.fna', '') for genome in genomeList]
@@ -94,13 +98,13 @@ for MT in mtList:
 # Add this info to the DF of alignment counts and update the count of total
         # CDS counts for the transcriptome
         alignedMatrix.loc[genome, MT] = totalReadsCDS
-        mtReads.loc[MT]['CDS'] = mtReads.loc[MT]['CDS'] + totalReadsCDS
+        mtReads.loc[MT,'CDS'] = mtReads.loc[MT,'CDS'] + totalReadsCDS
 
-        mtReads.loc[MT]['rRNA'] = mtReads.loc[MT]['rRNA'] + totalReadsrRNA
+        mtReads.loc[MT,'rRNA'] = mtReads.loc[MT,'rRNA'] + totalReadsrRNA
 
-        mtReads.loc[MT]['tRNA'] = mtReads.loc[MT]['tRNA'] + totalReadstRNA
+        mtReads.loc[MT,'tRNA'] = mtReads.loc[MT,'tRNA'] + totalReadstRNA
 
-        mtReads.loc[MT]['RNA'] = mtReads.loc[MT]['RNA'] + totalReadsRNA
+        mtReads.loc[MT,'RNA'] = mtReads.loc[MT,'RNA'] + totalReadsRNA
 
 
 # Read in list of counts to the internal standard
@@ -108,11 +112,11 @@ for MT in mtList:
     genomeReadsSTD = pd.read_csv(countFolder+'/'+MT+'-'+stdName+'.CDS.out', index_col=0, sep='\t', header=None)
     genomeReadsSTD = genomeReadsSTD.ix[:-5]
     totalReadsSTD = genomeReadsSTD.sum()[1]
-    mtReads.loc[MT]['Int Std'] = mtReads.loc[MT]['Int Std'] + totalReadsSTD
+    mtReads.loc[MT,'Int Std'] = mtReads.loc[MT,'Int Std'] + totalReadsSTD
 
 # Normalize and convert to a percent - coding sequences (CDS) only
 for MT in mtList:
-    alignedMatrix.loc[:, MT] = (alignedMatrix.loc[:, MT] / mtReads.loc[MT]['CDS']) * 100
+    alignedMatrix.loc[:, MT] = (alignedMatrix.loc[:, MT] / mtReads.loc[MT,'CDS']) * 100
 
 # Write to CSV file
 alignedMatrix.to_csv(normFolder+'/percentReadsPerGenome.csv', sep=',')
