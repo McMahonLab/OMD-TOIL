@@ -68,21 +68,21 @@ foreach my $samplePath (@sampleList) {
 ### unsorted SAM and BAM files to save space.
 ################################################################################
 
-my @samList = glob($mapFolder."/*.sam");
-$int = 1;
+#my @samList = glob($mapFolder."/*.sam");
+#$int = 1;
 
-foreach my $samPath (@samList) {
-  print "Processing SAM file ".$int." of ".@samList."\n";
-  if ($samPath =~ /.+\/(.+).sam/) {
-    my $sam = $1;
-    system("samtools view -b -S -o ".$mapFolder."/".$sam.".bam ".$mapFolder."/".$sam.".sam");
-    system("samtools sort -o ".$mapFolder."/".$sam.".sorted.bam -O bam -T ".$mapFolder."/temp/".$sam." ".$mapFolder."/".$sam.".bam");
-    system("samtools index ".$mapFolder."/".$sam.".sorted.bam");
-    system("rm ".$mapFolder."/".$sam.".bam");
-    system("rm ".$mapFolder."/".$sam.".sam");
-    $int ++;
-  }
-}
+#foreach my $samPath (@samList) {
+#  print "Processing SAM file ".$int." of ".@samList."\n";
+#  if ($samPath =~ /.+\/(.+).sam/) {
+#    my $sam = $1;
+#    system("samtools view -b -S -o ".$mapFolder."/".$sam.".bam ".$mapFolder."/".$sam.".sam");
+#    system("samtools sort -o ".$mapFolder."/".$sam.".sorted.bam -O bam -T ".$mapFolder."/temp/".$sam." ".$mapFolder."/".$sam.".bam");
+#    system("samtools index ".$mapFolder."/".$sam.".sorted.bam");
+#    system("rm ".$mapFolder."/".$sam.".bam");
+#    system("rm ".$mapFolder."/".$sam.".sam");
+#    $int ++;
+#  }
+#}
 
 ################################################################################
 ### Step 4: Obtain count data.
