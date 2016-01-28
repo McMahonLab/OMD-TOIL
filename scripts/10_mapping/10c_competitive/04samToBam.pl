@@ -71,7 +71,7 @@ my @featureList = ("CDS", "rRNA", "tRNA", "RNA");
 ### Step 2: Map Metatranscriptomes to Reference Genomes
 ################################################################################
 
-#my $int = 1;
+my $int = 1;
 #my $total = @sampleList;
 
 #foreach my $samplePath (@sampleList) {
