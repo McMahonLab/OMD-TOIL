@@ -24,18 +24,6 @@ For convenience, the script `uncompReadMapping.pl` will execute the pipeline wit
 
     where '-t' specifies the number of processors. Zissou has 32, please don't use all of them.
 
-3. Manipulate the ouptut. Convert to BAM, sort, and index. Delete SAM and unsorted BAM files to save space. For each `sample-genome.sam` file:
-
-    `samtools view -b  -S -o sample-genome.bam sample-genome.sam`
-
-    `samtools sort -o sample-genome.sorted.bam -O bam -T /temp/sample-genome sample-genome.bam`
-
-    `samtools index sample-genome.sorted.bam`
-
-    `rm sample.sam`
-
-    `rm sample.bam`
-
 The script is called as follows:
 
     `perl uncompReadMapping.pl`
@@ -147,3 +135,22 @@ The python script `processUncompReadCounts.py` aggregates these results into a n
   * __Kilobase of Transcript__. The start and stop sites of each gene are included in the gff files. I computed the transcript length from the difference between these two sites.
 
   * __Million mapped reads__. I chose to include _only_ those reads which do not map to either rRNA or the internal standard. Pancho used [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) to remove reads which map to rRNA, and I manually mapped reads to the internal standard. The file `countsPerFeature` contains the total reads remaining after the rRNA-removal step (column 'Total Reads') as well as the number which map to the internal standard ('Int Std'). I used the difference between these two values, realizing that some reads still map to rRNA (column 'rRNA').
+
+Cleanup
+--
+
+By default, `bwa` generates SAM files for the aligned (mapped) reads. These files can be converted to BAM files to save space. The conversion process is very slow, so I recommend waiting until you are done with the pipeline to convert the files. For convenience, the script `samToBam.pl` will perform the conversion for you:
+
+      `samtools view -b  -S -o sample-genome.bam sample-genome.sam`
+
+      `samtools sort -o sample-genome.sorted.bam -O bam -T /temp/sample-genome sample-genome.bam`
+
+      `samtools index sample-genome.sorted.bam`
+
+      `rm sample.sam`
+
+      `rm sample.bam`
+
+The script is called as follows:
+
+`perl samToBam.pl`
