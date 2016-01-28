@@ -115,9 +115,9 @@ The python script `processUncompReadCounts.py` aggregates these results into a n
       * other RNA (RNA)  
       * the internal standard (Int Std)
 
-* `normFolder/genome.RPKM.out`
+* `normFolder/genome.counts.out`
 
-    For each genome, this file reports the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
+    For each genome, this file reports the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed as the total number of counts. Users can then normalize these count data however they like.
 
     The file is a comma-separated file, with columns as follows:
 
@@ -126,15 +126,21 @@ The python script `processUncompReadCounts.py` aggregates these results into a n
 | Locus Tag | locus tag of the gene |
 | IMG Gene ID | IMG OID for the gene. Can be used in IMG's "Gene Search" to find more about the gene. |
 | Product | A written description of the gene product, such as `actinorhodopsin` or `ammonia permease`. |
-| ME150256 | Count of reads which map to the metatranscriptome, expressed on an RPKM basis. |
+| ME150256 | Count of reads which map to the metatranscriptome, expressed on a per-gene basis. |
 
-  __Calculating RPKM__. [RPKM](http://www.nature.com/nmeth/journal/v5/n7/abs/nmeth.1226.html) stands for 'Reads per Kilobase of Transcript per Million Mapped Reads' and was calculated as follows:
+  __Calculating RPKM__.
+
+  The python script `computeRPKMs` will then convert the total count data to normalized count data, on an RPKM basis:
+
+ [RPKM](http://www.nature.com/nmeth/journal/v5/n7/abs/nmeth.1226.html) stands for 'Reads per Kilobase of Transcript per Million Mapped Reads' and was calculated as follows:
 
   * __Reads__. As described above, `htseq-count` was used to count the number of reads from the metatranscriptome which map to each gene locus. The mapping was uncompetitive, so a read could map to multiple genomes. The counting was strict, so within a genome a read can only map to one gene.
 
   * __Kilobase of Transcript__. The start and stop sites of each gene are included in the gff files. I computed the transcript length from the difference between these two sites.
 
   * __Million mapped reads__. I chose to include _only_ those reads which do not map to either rRNA or the internal standard. Pancho used [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) to remove reads which map to rRNA, and I manually mapped reads to the internal standard. The file `countsPerFeature` contains the total reads remaining after the rRNA-removal step (column 'Total Reads') as well as the number which map to the internal standard ('Int Std'). I used the difference between these two values, realizing that some reads still map to rRNA (column 'rRNA').
+
+The output is a file `normFolder/genome.RPKM.out`.
 
 Cleanup
 --
