@@ -40,6 +40,7 @@ else {
 ################################################################################
 
 my @genomeList = glob($genomeFolder.'/*.fna');
+@genomeList = grep !/merged.fna/, @genomeList;
 for (@genomeList) {
   s/.+\/(.+).fna/$1/
   }

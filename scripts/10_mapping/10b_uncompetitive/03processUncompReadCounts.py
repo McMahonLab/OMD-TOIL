@@ -50,7 +50,7 @@ for mt in os.listdir(sampleFolder):
 # Read in list of genomes. Ignore internal standard genome.
 genomeList = []
 for genome in os.listdir(genomeFolder):
-    if stdName in genome or genome.startswith('.'):
+    if stdName in genome or 'merged' in genome or genome.startswith('.'):
         next
     elif genome.endswith('.fna'):
        genomeList.append(genome)
