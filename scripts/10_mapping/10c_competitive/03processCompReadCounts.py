@@ -210,9 +210,9 @@ for genome in genomeList:
         # Kilobse of transcript is given by: K = genomeRPKM[Length] / 1000
         # Million mapped reads is given by: M = (mtReads[Total Reads] - mtReads[Int Std]) / 1000000
         # Therefore RPKM = (genomeRPKM[MT] / M) / K
-        M = (mtReads['Reads'] - mtReads['Int Std']) / 1000000
-        genomeRPKM[MT] = (genomeRPKM[MT] / M[MT]) / (genomeRPKM['Gene Length'] / 1000)
+#        M = (mtReads['Reads'] - mtReads['Int Std']) / 1000000
+#        genomeRPKM[MT] = (genomeRPKM[MT] / M[MT]) / (genomeRPKM['Gene Length'] / 1000)
 
     # Drop the 'Gene Length' column and write to file
-    genomeRPKM = genomeRPKM.drop('Gene Length',1)
-    genomeRPKM.to_csv(normFolder+'/'+genome+'.RPKM.out', sep=',')
+#    genomeRPKM = genomeRPKM.drop('Gene Length',1)
+    genomeRPKM.to_csv(normFolder+'/'+genome+'.counts.out', sep=',')
