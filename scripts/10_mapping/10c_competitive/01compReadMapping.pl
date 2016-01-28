@@ -47,6 +47,7 @@ else {
 }
 
 my @genomeList = glob($genomeFolder."/*.fna");
+@genomeList = grep !/merged.fna/, @genomeList;
 my @sampleList = glob($mtFolder."/*");
 my @featureList = ("CDS", "rRNA", "tRNA", "RNA");
 

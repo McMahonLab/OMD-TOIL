@@ -39,17 +39,6 @@ for mt in os.listdir(sampleFolder):
     else:
        mtList.append(mt)
 
-
-# Read in list of genomes. Ignore internal standard genome.
-genomeList = []
-for genome in os.listdir(genomeFolder):
-    if genome.startswith('.'):
-        next
-    else:
-        genomeList.append(genome)
-
-genomeList = [genome.replace('.fna', '') for genome in genomeList]
-
 #%%#############################################################################
 ### Step 1 - Use the GFF files to determine the IMG OID associated with each
 ### locus tag.
