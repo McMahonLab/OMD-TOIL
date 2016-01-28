@@ -13,22 +13,34 @@
 use strict;
 use warnings;
 
+# Import packages
+use File::Path qw(make_path);
+
 ################################################################################
 ### User-defined files and folder structure
 ################################################################################
-my $genomeFolder = '../../../rawData/refGenomes/fna';
-my $gffFolder = '../../../rawData/refGenomes/gff';
-my $mtFolder = '../../../rawData/';
-my $mapFolder = '../../../derivedData/mapping/uncompetitive/bamFiles';
-my $countFolder = '../../../derivedData/mapping/uncompetitive/readCounts';
+my $genomeFolder = '../../../data/refGenomes/fna';
+my $gffFolder = '../../../data/refGenomes/gff';
+my $mtFolder = '../../../data/rawData/';
+my $mapFolder = '../../../data/derivedData/mapping/uncompetitive/bamFiles';
+my $countFolder = '../../../data/derivedData/mapping/uncompetitive/readCounts';
 
-mkdir $countFolder unless -d $countFolder;
+# Check if the output directory exists and create it if necessary
+if (-d $countFolder) {
+  print "Output directory exists \n";
+}
+# If not, create it
+else {
+  print "Creating output directory \n";
+  make_path($countFolder);
+}
 
 ################################################################################
 ### Initialize lists of refGenomes and MTs
 ################################################################################
 
 my @genomeList = glob($genomeFolder.'/*.fna');
+@genomeList = grep !/merged.fna/, @genomeList;
 for (@genomeList) {
   s/.+\/(.+).fna/$1/
   }
@@ -51,6 +63,6 @@ foreach my $genome (@genomeList) {
     foreach my $mt (@mtList) {
       print "Processing metranscriptome ".$mt."\n";
       # Call HTseq-count
-      system('/usr/local/bin/htseq-count -f bam -r pos -s no -a 0 -t CDS -i locus_tag -m intersection-strict -o '. $countFolder.'/'.$mt.'-'.$genome.'.CDS.sam '.$mapFolder.'/'.$mt.'-'.$genome.'.sorted.bam '.$gffFolder.'/'.$genome.'.gff >  '.$countFolder.'/'.$mt.'-'.$genome.'.CDS.out');
+      system('/usr/local/bin/htseq-count -f sam -r pos -s no -a 0 -t CDS -i locus_tag -m intersection-strict -o '. $countFolder.'/'.$mt.'-'.$genome.'.CDS.sam '.$mapFolder.'/'.$mt.'-'.$genome.'.sam '.$gffFolder.'/'.$genome.'.gff >  '.$countFolder.'/'.$mt.'-'.$genome.'.CDS.out');
       }
   }

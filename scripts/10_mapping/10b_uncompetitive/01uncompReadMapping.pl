@@ -13,16 +13,30 @@
 use strict;
 use warnings;
 
+# Import packages
+use File::Path qw(make_path);
+
 ################################################################################
 ### User-defined files and folder structure
 ################################################################################
 
-my $mtFolder = '../../../rawData/';
-my $genomeFolder = '../../../rawData/refGenomes/fna';
-my $mapFolder = '../../../derivedData/mapping/uncompetitive/bamFiles';
+my $mtFolder = '../../../data/rawData/';
+my $genomeFolder = '../../../data/refGenomes/fna';
+my $mapFolder = '../../../data/derivedData/mapping/uncompetitive/bamFiles';
 my $numProcs = 30;
 
+# Check if the output directory exists and create it if necessary
+if (-d $mapFolder) {
+  print "Output directory exists \n";
+}
+# If not, create it
+else {
+  print "Creating output directory \n";
+  make_path($mapFolder);
+}
+
 my @genomeList = glob($genomeFolder.'/*.fna');
+@genomeList = grep !/merged.fna/, @genomeList;
 my @sampleList = glob($mtFolder.'/*');
 
 ################################################################################
@@ -65,18 +79,18 @@ foreach my $samplePath (@sampleList) {
 ### unsorted SAM and BAM files to save space.
 ################################################################################
 
-my @samList = glob($mapFolder.'/*.sam');
-$int = 1;
+#my @samList = glob($mapFolder.'/*.sam');
+#$int = 1;
 
-foreach my $samPath (@samList) {
-  print "Processing SAM file ".$int." of ".@samList."\n";
-  if ($samPath =~ /.+\/(.+).sam/) {
-    my $sam = $1;
-    system("samtools view -b -S -o ".$mapFolder."/".$sam.".bam ".$mapFolder."/".$sam.".sam");
-    system("samtools sort -o ".$mapFolder."/".$sam.".sorted.bam -O bam -T ".$mapFolder."/temp/".$sam." ".$mapFolder."/".$sam.".bam");
-    system("samtools index ".$mapFolder."/".$sam.".sorted.bam");
-    system("rm ".$mapFolder."/".$sam.".bam");
-    system("rm ".$mapFolder."/".$sam.".sam");
-    $int ++;
-  }
-}
+#foreach my $samPath (@samList) {
+#  print "Processing SAM file ".$int." of ".@samList."\n";
+#  if ($samPath =~ /.+\/(.+).sam/) {
+#    my $sam = $1;
+#    system("samtools view -b -S -o ".$mapFolder."/".$sam.".bam ".$mapFolder."/".$sam.".sam");
+#    system("samtools sort -o ".$mapFolder."/".$sam.".sorted.bam -O bam -T ".$mapFolder."/temp/".$sam." ".$mapFolder."/".$sam.".bam");
+#    system("samtools index ".$mapFolder."/".$sam.".sorted.bam");
+#    system("rm ".$mapFolder."/".$sam.".bam");
+#    system("rm ".$mapFolder."/".$sam.".sam");
+#    $int ++;
+#  }
+#}

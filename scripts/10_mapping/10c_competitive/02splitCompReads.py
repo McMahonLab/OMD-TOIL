@@ -22,10 +22,10 @@ import re
 ### Static folder structure
 ################################################################################
 # Define fixed input and output files
-genomeFolder = '../../../rawData/refGenomes/fna'
-gffFolder = '../../../rawData/refGenomes/gff'
-mtFolder = '../../../rawData/'
-countFolder = '../../derivedData/mapping/competitive/readCounts'
+genomeFolder = '../../../data/refGenomes/fna'
+gffFolder = '../../../data/refGenomes/gff'
+sampleFolder = '../../../data/rawData/'
+countFolder = '../../../data/derivedData/mapping/competitive/readCounts'
 
 #%%#############################################################################
 ### Step 0 - Read in list of MTs and Genomes for processing
@@ -33,22 +33,11 @@ countFolder = '../../derivedData/mapping/competitive/readCounts'
 
 # Read in list of MTs
 mtList = []
-for mt in os.listdir(mtFolder):
+for mt in os.listdir(sampleFolder):
     if mt.startswith('.'):
         next
     else:
        mtList.append(mt)
-
-
-# Read in list of genomes. Ignore internal standard genome.
-genomeList = []
-for genome in os.listdir(genomeFolder):
-    if genome.startswith('.'):
-        next
-    else:
-        genomeList.append(genome)
-
-genomeList = [genome.replace('.fna', '') for genome in genomeList]
 
 #%%#############################################################################
 ### Step 1 - Use the GFF files to determine the IMG OID associated with each
