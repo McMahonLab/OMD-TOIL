@@ -19,3 +19,16 @@ In order for to properly count mapped reads, the GFF files must be in the proper
 * `error: could not parse score '' on line XYZ in file ‘genome.gff’`
 
   This error occurs because a line of the GFF file is incomplete (e.g., missing the score information). I found this to occur only for CRISPR arrays defined in the final line of the GFF file. Since I am not concerned with mapping to CRISPR arrays, I deleted those lines.
+
+Validation of Fasta header files
+--
+In order for to properly count mapped reads, the `seqID` field in the GFF files must match the description line in the fasta files. The script `fnaValidator` updates the fasta description to use the short form used in the `seqID` field.
+
+I don't know why the gff and fasta files from IMG have different values for this field, but they do. Briefly, the fasta files contain a description of the form:
+
+`ME10739DRAFT_MEint_metabat_10739_757002236.1 Composite genome from Lake Mendota Epilimnion pan-assembly MEint.metabat.10739 : ME10739DRAFT_MEint_metabat_10739_757002236.1`
+
+while the GFF files have a seqID of the form:
+`ME10739DRAFT_MEint_metabat_10739_757002236.1`
+
+The desired fasta description line is limited to the material after the semi-colon. The script `fnaValidator` rewrites the fasta files with the correct description line.
