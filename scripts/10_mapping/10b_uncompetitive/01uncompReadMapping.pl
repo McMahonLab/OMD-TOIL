@@ -25,7 +25,7 @@ my $mtFolder = '../../../data/rawData/';
 my $genomeFolder = '../../../data/refGenomes/fna';
 my $mapFolder = '../../../data/derivedData/mapping/uncompetitive/bamFiles';
 my $numThreads = 1;
-my $numChildren = 30;
+my $numChildren = 25;
 
 # Check if the output directory exists and create it if necessary
 if (-d $mapFolder) {
@@ -62,9 +62,6 @@ foreach my $samplePath (@sampleList) {
 ################################################################################
 ### Step 3: Simultaneously Index and Map Metatranscriptomes to Reference Genomes
 ################################################################################
-
-my $int = 1;
-my $total = @genomeList*@sampleList;
 
 my $pm = new Parallel::ForkManager($numChildren);
 
