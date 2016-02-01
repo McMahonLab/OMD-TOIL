@@ -60,8 +60,8 @@ closedir(DIR);
 
 my @commandArray;
 
-foreach my $samplePath (@sampleList) {
-  foreach my $genomePath (@genomeList) {
+foreach my $mt (@mtList) {
+  foreach my $genome (@genomeList) {
     push @commandArray, '/usr/local/bin/htseq-count -f sam -r pos -s no -a 0 -t tRNA -i locus_tag -m intersection-strict -o '. $countFolder.'/'.$mt.'-'.$genome.'.tRNA.sam '.$mapFolder.'/'.$mt.'-'.$genome.'.sam '.$gffFolder.'/'.$genome.'.gff >  '.$countFolder.'/'.$mt.'-'.$genome.'.tRNA.out';
   }
 }
