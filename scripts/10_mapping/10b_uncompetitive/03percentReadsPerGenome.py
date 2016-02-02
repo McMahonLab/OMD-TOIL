@@ -14,7 +14,6 @@
 ### Import packages
 ################################################################################
 
-from joblib import Parallel, delayed  
 import os
 import pandas as pd
 import re
@@ -35,9 +34,7 @@ stdName = 'pFN18A_DNA_transcript'
 if not os.path.exists(normFolder):
         print "Creating output directory\n"
         os.makedirs(normFolder)
-
-# Define number of processors for multi-processing
-numCores = 30
+    
 #%%#############################################################################
 ### Step 0 - Read in MT and genome lists. Create DF to be used for normalization.
 ################################################################################
@@ -82,110 +79,53 @@ for MT in mtList:
 alignedMatrix = pd.DataFrame(0, index=genomeList, columns=mtReads.index)
 
 #%%#############################################################################
-### Step 2 - Rearrange mapped read counts.
+### Step 1 - Count reads which map to each genome. Perform counts for each
+### feature type: CDS, rRNA, tRNA, RNA. For the CDS feature type, also
+### calculate as the percent of total CDS reads from the metatranscriptome.
 ################################################################################
-
-def rearrangeReads(genome):
+for MT in mtList:
+    for genome in genomeList:
+# Not all CDS file will exist and/or have content, so employ a check. Create an empty DF if the file doesn't exist.
     
-# Create an empty dataframe with the desired columns
-    genomeRPKM = pd.DataFrame(columns=['Locus Tag', 'IMG Gene ID', 'Product', 'Gene Length'])
-
-# Read in the GFF file. The file needs to be split along both tab and semi-
-# colon characters. Because the number of fields will vary depending on the
-# entries in the attributes column, the file cannot be directly read into a
-# dataframe.
-    myFile = open(gffFolder+'/'+genome+'.gff')
-    for line in myFile:
-        line = line.rstrip()
-        if line == '##gff-version 3':
-            next
-        else:
-# Split along the appropriate delimiters
-            gffArray = re.split('\t|;', line)
-# Assign elements to their proper location in the dataframe
-            if len(gffArray) >= 11:
-                genomeRPKM = genomeRPKM.append({'Locus Tag': gffArray[9].split('=')[1],
-                                                'IMG Gene ID': gffArray[8].split('=')[1],
-                                                'Product': gffArray[10].split('=')[1],
-                                                'Gene Length': int(gffArray[4]) - int(gffArray[3]) + 1 },
-                                                ignore_index = True)
-            else:
-                genomeRPKM = genomeRPKM.append({'Locus Tag': gffArray[9].split('=')[1],
-                                                'IMG Gene ID': gffArray[8].split('=')[1],
-                                                'Product': 'None Provided',
-                                                'Gene Length': int(gffArray[4]) - int(gffArray[3]) + 1 },
-                                                ignore_index = True)
-    myFile.close()
-
-# Reindex based on the locus tag for faster processing of read counts
-    genomeRPKM = genomeRPKM.set_index('Locus Tag')
-
-# Now read in the read counts from each genome-MT.feature.out file and add to the DF
-    for MT in mtList:
-
-# Read in the feature.out file and drop the unncessary rows
-# Not all CDS file will exist and/or have content, so employ a check. Create an empty DF if the file doesn't exist.    
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.CDS.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
             genomeReadsCDS = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.CDS.out', index_col=0, sep='\t', header=None)        
             genomeReadsCDS = genomeReadsCDS.ix[:-5]
+            totalReadsCDS = genomeReadsCDS.sum()[1]
         else:
-            genomeReadsCDS = pd.DataFrame(columns=['1'])
+            genomeReadsCDS = []
+            totalReadsCDS = 0
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.rRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
             genomeReadsrRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.rRNA.out', index_col=0, sep='\t', header=None)
             genomeReadsrRNA = genomeReadsrRNA.ix[:-5]
+            totalReadsrRNA = genomeReadsrRNA.sum()[1]
         else:
-            genomeReadsrRNA = pd.DataFrame(columns=['1'])
+            genomeReadsrRNA = []
+            totalReadsrRNA = 0
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.tRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
             genomeReadstRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.tRNA.out', index_col=0, sep='\t', header=None)
             genomeReadstRNA = genomeReadstRNA.ix[:-5]
+            totalReadstRNA = genomeReadstRNA.sum()[1]
         else:
-            genomeReadstRNA = pd.DataFrame(columns=['1'])
+            genomeReadstRNA = []
+            totalReadstRNA = 0
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.RNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
             genomeReadsRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.RNA.out', index_col=0, sep='\t', header=None)
             genomeReadsRNA = genomeReadsRNA.ix[:-5]
+            totalReadsRNA = genomeReadsRNA.sum()[1]
         else:
-            genomeReadsRNA = pd.DataFrame(columns=['1'])
+            genomeReadsRNA = []
+            totalReadsRNA = 0
+            
+# Add this info to the DF of alignment counts and update the count of total
+        # CDS counts for the transcriptome
+        alignedMatrix.loc[genome, MT] = totalReadsCDS + totalReadsRNA + totalReadsrRNA + totalReadstRNA
 
-        # Merge into a single genomeReads DF and rename the column with the MT name
-        genomeReads = pd.concat([genomeReadsCDS, genomeReadsRNA, genomeReadsrRNA, genomeReadstRNA])
-        genomeReads.columns = [MT]
+# Normalize and convert to a percent - coding sequences (CDS) only
+for MT in mtList:
+    alignedMatrix.loc[:, MT] = (alignedMatrix.loc[:, MT] / mtReads.loc[MT,'NormFact']) * 100
 
-        # Perform a left join with the RPKM matrix
-        genomeRPKM = genomeRPKM.join(genomeReads, how='left')
-
-    # Write to file
-    genomeRPKM.to_csv(normFolder+'/'+genome+'.counts.out', sep=',')
-
-    return
-
-Parallel(n_jobs=numCores)(delayed(rearrangeReads)(genome) for genome in genomeList)
-
-#%%#############################################################################
-### Step 2 - Construct normalized read counts. Normalize to RPKM, reads per
-### kilobase of sequence per million mapped reads. For mapped reads, consider
-### only reads which don't map to the standard.
-################################################################################
-
-# Define a function to compute the RPKM for the (genome MT) pair
-def computeRPKM(genome):
-    genomeRPKM = pd.read_csv(normFolder+'/'+genome+'.counts.out', index_col=0)  
-
-    for MT in mtList:
-        # Convert to RPKM
-        # RPKM stands for 'Read per Kilobase of Transcript per Million Mapped Reads'
-        # Kilobse of transcript is given by: K = genomeRPKM[Length] / 1000
-        # Million mapped reads is given by: M = (mtReads[Total Reads] - mtReads[Int Std]) / 1000000
-        # Therefore RPKM = (genomeRPKM[MT] / M) / K
-        M = (mtReads['Reads'] - mtReads['Int Std']) / 1000000
-        genomeRPKM[MT] = (genomeRPKM[MT] / M[MT]) / (genomeRPKM['Gene Length'] / 1000)
-
-        # Drop the 'Gene Length' column and write to file
-    genomeRPKM = genomeRPKM.drop('Gene Length',1)
-    genomeRPKM.to_csv(normFolder+'/'+genome+'.RPKM.out', sep=',')
-
-    return
-
-Parallel(n_jobs=numCores)(delayed(computeRPKM)(genome) for genome in genomeList)
+# Write to CSV file
+alignedMatrix.to_csv(normFolder+'/percentReadsPerGenome.csv', sep=',')

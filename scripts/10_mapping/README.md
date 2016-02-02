@@ -11,6 +11,7 @@ URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)
 Overview
 --
 This document outlines procedures for mapping metatranscriptomic reads to the McMahon lab's collection of reference genomes. The analysis occurred in three parts, each with its own documentation:
+
   * [Validation of GFF files](10a_gffValidation/README.md)  
   * [Uncompetitive mapping of reads](10b_uncompetitive/README.md)    
   * [Competitive mapping of reads](10c_competitive/README.md)  
@@ -21,16 +22,26 @@ Prerequisites
 --
 Ensure the following software is installed:  
 
-* [Burrows-Wheeler Aligner](http://bio-bwa.sourceforge.net/) (BWA) - As of 2015-11-09. BWA version 0.7.5a-r405 is on Zissou and accessible by typing `bwa` in the command line.
+* [BBMap](http://seqanswers.com/forums/showthread.php?t=41057) - This will need to be installed in your `home` folder (assuming you cloned your fork of this repo to your `home` folder). Otherwise, BBMap will need to be accessible from wherever you cloned your fork. Used for uncompetitive mapping.
 
-* [Genome Tools](http://genometools.org/pub/) - This will need to be installed in your `home` folder (assuming you cloned your fork of this repo to your `home` folder). Otherwise, Genome Tools will need to be accessible from wherever you cloned your fork.
+* [Burrows-Wheeler Aligner](http://bio-bwa.sourceforge.net/) (BWA) - As of 2015-11-09. BWA version 0.7.5a-r405 is on Zissou and accessible by typing `bwa` in the command line. Used for competitive mapping. Will be replaced with BBMap at some later point.
 
-* [samtools](http://www.htslib.org/download/) - This will need to be installed in your `home` folder  (assuming you cloned your fork of this repo to your `home` folder). Otherwise, samtools will need to be accessible from wherever you cloned your fork.
+* [Genome Tools](http://genometools.org/pub/) - This will need to be installed in your `home` folder (assuming you cloned your fork of this repo to your `home` folder). Otherwise, Genome Tools will need to be accessible from wherever you cloned your fork. Used to validate GFF files prior to counting mapped reads.
 
-* [HTSeq](http://www-huber.embl.de/HTSeq/doc/overview.html) - As of 2015-11-17, this Python package is installed on Zissou.
+* [samtools](http://www.htslib.org/download/) - This will need to be installed in your `home` folder  (assuming you cloned your fork of this repo to your `home` folder). Otherwise, samtools will need to be accessible from wherever you cloned your fork. Used to index genomes for mapping.
 
-* [Python](https://www.python.org/) with the following packages
-    * [Pandas](http://pandas.pydata.org/) - As of 2015-12-16, this Python package is installed on Zissou.
+* [Java](https://help.ubuntu.com/community/Java) - As of 2016-01-29, Java has been installed on Zissou. Required by BBMap.
+
+* [Perl](https://www.perl.org/) with the following packages:  
+    * [Parallel::ForkManager](http://search.cpan.org/~yanick/Parallel-ForkManager-1.17/lib/Parallel/ForkManager.pm) - Used for parallelization of BBMap mapping runs.
+    * For instructions on how to install Perl packages without root access, check out [this question](http://stackoverflow.com/questions/2980297/how-can-i-use-cpan-as-a-non-root-user) on StackOverflow.
+
+* [Python](https://www.python.org/) with the following packages:
+    * [HTSeq](http://www-huber.embl.de/HTSeq/doc/overview.html) - As of 2015-11-17, this Python package is installed on Zissou. Used for counting mapped reads.
+    * [JobLib](https://pypi.python.org/pypi/joblib) - Used for parallelization of counting mapped reads. To install Python packages without `root` access, use the `--user` flag with `pip`. More info [here](http://stackoverflow.com/questions/7465445/how-to-install-python-modules-without-root-access) on StackOverflow.
+    * [Pandas](http://pandas.pydata.org/) - As of 2015-12-16, this Python package is installed on Zissou. Used for counting mapped reads and computing RPKMs.
+    * To install Python packages without root access, use the
+
 
 Ensure the following data are available:  
 
@@ -62,13 +73,13 @@ Uncompetitive Mapping of Reads
 --
 
 ### Mapping
-This section describes the steps to map metatranscriptomic reads to the reference genomes using BWA. __This section describes uncompetitive mapping. In this approach, each genome is processed individually, and reads may may to multiple genomes.__ For convenience, the script `uncompReadMapping.pl` will execute the pipeline with a single command. The script maps each metatranscriptome to each reference genome.
+This section describes the steps to map metatranscriptomic reads to the reference genomes using BBMap. __This section describes uncompetitive mapping. In this approach, each genome is processed individually, and reads may may to multiple genomes.__ For convenience, the script `uncompReadMapping.pl` will execute the pipeline with a single command. The script maps each metatranscriptome to each reference genome.
 
 ### Counting
 This section describes the steps to count the metatranscriptomic reads which mapped to each gene in a reference genome. For convenience, the script `uncompReadCountsFEATURE.pl` will execute the pipeline with a single command. The script counts reads mapped to each gene using [htseq-count](http://www-huber.embl.de/HTSeq/doc/count.html#count) for each (metatranscriptome, genome) pair.
 
 ### Normalization
-This section describe the process for normalizing the read counts, as well as procedures for producing some other statistics. For each genome, the script `processUncompReadCounts.py` computes the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
+This section describe the process for computing the fraction of reads which map to each genome, as well as the procedure for normalizing the read counts. For each genome, the script `percentReadsPerGenome.py` counts the fraction of reads mapping to the genome, while the script `processUncompReadCounts.py` computes the total number of reads from each metatranscriptome which map to each gene locus of the genome, expressed on an RPKM basis.
 
 Competitive Mapping of Reads
 --

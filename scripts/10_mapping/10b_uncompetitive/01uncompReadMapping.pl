@@ -15,6 +15,7 @@ use warnings;
 
 # Import packages
 use File::Path qw(make_path);
+use Parallel::ForkManager;
 
 ################################################################################
 ### User-defined files and folder structure
@@ -23,7 +24,8 @@ use File::Path qw(make_path);
 my $mtFolder = '../../../data/rawData/';
 my $genomeFolder = '../../../data/refGenomes/fna';
 my $mapFolder = '../../../data/derivedData/mapping/uncompetitive/bamFiles';
-my $numProcs = 30;
+my $numThreads = 1;
+my $numChildren = 25;
 
 # Check if the output directory exists and create it if necessary
 if (-d $mapFolder) {
@@ -40,57 +42,37 @@ my @genomeList = glob($genomeFolder.'/*.fna');
 my @sampleList = glob($mtFolder.'/*');
 
 ################################################################################
-### Step 1: Index Genomes
+### Step 2: Generate a list of commands to run
 ################################################################################
 
-my $int = 1;
-foreach my $genomePath (@genomeList) {
-  print "Indexing genome ".$int." of ".@genomeList."\n";
-  if ($genomePath =~ /(.+).fna/) {
-    my $genome = $1;
-    system("bwa index -p $genome -a is $genomePath");
-    $int++;
-    }
-}
-
-################################################################################
-### Step 2: Map Metatranscriptomes to Reference Genomes
-################################################################################
-
-$int = 1;
-my $total = @genomeList*@sampleList;
+my @commandArray;
 
 foreach my $samplePath (@sampleList) {
   foreach my $genomePath (@genomeList) {
     if ($genomePath =~ /.+\/(.+).fna/) {
       my $genome = $1;
       if ($samplePath =~ /.+\/(.+)/) {
-	my $sample = $1;
-	print "Mapping sample ".$sample." against genome ".$genome." (".$int." of ".$total."). \n";
-	$int ++;
-	system("bwa mem -t ".$numProcs." ".$genomeFolder."/".$genome." ".$samplePath."/rRNA_removal/".$sample."_non_rRNA.fastq > ".$mapFolder."/".$sample."-".$genome.".sam");
+	my $sample = $1;	
+	push @commandArray, "bbmap.sh t=".$numThreads." in=".$samplePath."/rRNA_removal/".$sample."_non_rRNA.fastq outm=".$mapFolder."/".$sample."-".$genome.".sam ref=".$genomeFolder."/".$genome.".fna nodisk sam=1.3"
       }
     }
   }
 }
 
 ################################################################################
-### Step 3: Manipulate Output SAM files. Convert to BAM, sort and index. Delete
-### unsorted SAM and BAM files to save space.
+### Step 3: Simultaneously Index and Map Metatranscriptomes to Reference Genomes
 ################################################################################
 
-#my @samList = glob($mapFolder.'/*.sam');
-#$int = 1;
+my $pm = new Parallel::ForkManager($numChildren);
 
-#foreach my $samPath (@samList) {
-#  print "Processing SAM file ".$int." of ".@samList."\n";
-#  if ($samPath =~ /.+\/(.+).sam/) {
-#    my $sam = $1;
-#    system("samtools view -b -S -o ".$mapFolder."/".$sam.".bam ".$mapFolder."/".$sam.".sam");
-#    system("samtools sort -o ".$mapFolder."/".$sam.".sorted.bam -O bam -T ".$mapFolder."/temp/".$sam." ".$mapFolder."/".$sam.".bam");
-#    system("samtools index ".$mapFolder."/".$sam.".sorted.bam");
-#    system("rm ".$mapFolder."/".$sam.".bam");
-#    system("rm ".$mapFolder."/".$sam.".sam");
-#    $int ++;
-#  }
-#}
+foreach my $command (@commandArray) {
+  # Forks and returns the pid for the child:
+  my $pid = $pm->start and next;
+
+  system($command);
+  
+  $pm->finish; # Terminates the child process
+}
+
+$pm->wait_all_children;
+print "Mapping complete!\n";
