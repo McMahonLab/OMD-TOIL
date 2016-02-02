@@ -33,7 +33,8 @@ This repo describes the following analyses. Clicking on each link will take you 
 10. [Mapping](scripts/10_mapping/README.md)  
   10a. [Validation of GFF files](scripts/10_mapping/10a_gffValidation/README.md)  
   10b. [Uncompetitive Mapping](scripts/10_mapping/10b_uncompetitive/README.md)  
-  10c. [Competitive Mapping](scripts/10_mapping/10c_competitive/README.md)  
+  10c. [Competitive Mapping](scripts/10_mapping/10c_competitive/README.md)
+11. [Expression Profiles](scripts/11_expressionProfiling/README.md) 
 
 Protocols associated with the __experimental__ steps (1 to 6) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
