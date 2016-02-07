@@ -131,19 +131,19 @@ def rearrangeReads(genome):
         else:
             genomeReadsCDS = pd.DataFrame(columns=['1'])
 
-        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.rRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
+        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.rRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.rRNA.out'):
             genomeReadsrRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.rRNA.out', index_col=0, sep='\t', header=None)
             genomeReadsrRNA = genomeReadsrRNA.ix[:-5]
         else:
             genomeReadsrRNA = pd.DataFrame(columns=['1'])
 
-        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.tRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
+        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.tRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.tRNA.out'):
             genomeReadstRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.tRNA.out', index_col=0, sep='\t', header=None)
             genomeReadstRNA = genomeReadstRNA.ix[:-5]
         else:
             genomeReadstRNA = pd.DataFrame(columns=['1'])
 
-        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.RNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
+        if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.RNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.RNA.out'):
             genomeReadsRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.RNA.out', index_col=0, sep='\t', header=None)
             genomeReadsRNA = genomeReadsRNA.ix[:-5]
         else:
