@@ -69,7 +69,7 @@ foreach my $mt (@mtList) {
 ### Loop to obtain count data
 ################################################################################
 
-my $numChildren = 25;
+my $numChildren = 1;
 my $pm = new Parallel::ForkManager($numChildren);
 
 foreach my $command (@commandArray) {

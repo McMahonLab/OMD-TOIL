@@ -37,7 +37,7 @@ if not os.path.exists(normFolder):
         os.makedirs(normFolder)
 
 # Define number of processors for multi-processing
-numCores = 30
+numCores = 1
 #%%#############################################################################
 ### Step 0 - Read in MT and genome lists. Create DF to be used for normalization.
 ################################################################################
