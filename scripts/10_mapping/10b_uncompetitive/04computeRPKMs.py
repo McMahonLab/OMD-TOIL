@@ -37,7 +37,7 @@ if not os.path.exists(normFolder):
         os.makedirs(normFolder)
 
 # Define number of processors for multi-processing
-numCores = 1
+numCores = 25
 #%%#############################################################################
 ### Step 0 - Read in MT and genome lists. Create DF to be used for normalization.
 ################################################################################
@@ -128,29 +128,24 @@ def rearrangeReads(genome):
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.CDS.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.CDS.out'):
             genomeReadsCDS = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.CDS.out', index_col=0, sep='\t', header=None)        
             genomeReadsCDS = genomeReadsCDS.ix[:-5]
-        else:
-            genomeReadsCDS = pd.DataFrame(columns=['1'])
+            genomeReads = genomeReadsCDS
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.rRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.rRNA.out'):
             genomeReadsrRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.rRNA.out', index_col=0, sep='\t', header=None)
             genomeReadsrRNA = genomeReadsrRNA.ix[:-5]
-        else:
-            genomeReadsrRNA = pd.DataFrame(columns=['1'])
+            genomeReads = genomeReads.append(genomeReadsrRNA)
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.tRNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.tRNA.out'):
             genomeReadstRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.tRNA.out', index_col=0, sep='\t', header=None)
             genomeReadstRNA = genomeReadstRNA.ix[:-5]
-        else:
-            genomeReadstRNA = pd.DataFrame(columns=['1'])
+            genomeReads = genomeReads.append(genomeReadstRNA)
 
         if os.path.isfile(countFolder+'/'+MT+'-'+genome+'.RNA.out') and os.path.getsize(countFolder+'/'+MT+'-'+genome+'.RNA.out'):
             genomeReadsRNA = pd.read_csv(countFolder+'/'+MT+'-'+genome+'.RNA.out', index_col=0, sep='\t', header=None)
             genomeReadsRNA = genomeReadsRNA.ix[:-5]
-        else:
-            genomeReadsRNA = pd.DataFrame(columns=['1'])
+            genomeReads = genomeReads.append(genomeReadsRNA)
 
         # Merge into a single genomeReads DF and rename the column with the MT name
-        genomeReads = pd.concat([genomeReadsCDS, genomeReadsRNA, genomeReadsrRNA, genomeReadstRNA])
         genomeReads.columns = [MT]
 
         # Perform a left join with the RPKM matrix
