@@ -15,7 +15,7 @@ This repository ('repo') describes the experimental and analytical procedures as
 
 Data Organization
 --
-We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `data_lakes/OMD-TOIL` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOILv2) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
+We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `/data_lakes/Metatranscriptomes/omd-toil` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOILv2) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
 
 Repo Table of Contents
 --
@@ -34,7 +34,7 @@ This repo describes the following analyses. Clicking on each link will take you 
   10a. [Validation of GFF files](scripts/10_mapping/10a_gffValidation/README.md)  
   10b. [Uncompetitive Mapping](scripts/10_mapping/10b_uncompetitive/README.md)  
   10c. [Competitive Mapping](scripts/10_mapping/10c_competitive/README.md)
-11. [Expression Profiles](scripts/11_expressionProfiling/README.md) 
+11. [Expression Profiles](scripts/11_expressionProfiling/README.md)
 
 Protocols associated with the __experimental__ steps (1 to 6) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
