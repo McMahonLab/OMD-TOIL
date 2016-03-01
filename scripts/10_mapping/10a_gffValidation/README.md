@@ -10,7 +10,7 @@ URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)
 
 Validation of GFF files
 --
-In order for to properly count mapped reads, the GFF files must be in the proper format. The script `gffValidator` will analyze all GFF files in the `gffFolder` folder, and generate a file `gffFolder/all.out` describing errors in the GFF files. The GFF files must then be manually corrected. In my experience, errors will be one of the following messages:
+In order for to properly count mapped reads, the GFF files must be in the proper format. The script `gffValidator` will analyze all GFF files in the `gffFolder` folder, and generate a file `gffFolder/all.out` describing errors in the GFF files. The GFF files must then be manually corrected. In our experience, errors will be one of the following messages:
 
 * `token "string" on line XYZ in file “genome.gff" does not contain exactly one ‘=‘`
 
@@ -18,7 +18,11 @@ In order for to properly count mapped reads, the GFF files must be in the proper
 
 * `error: could not parse score '' on line XYZ in file ‘genome.gff’`
 
-  This error occurs because a line of the GFF file is incomplete (e.g., missing the score information). I found this to occur only for CRISPR arrays defined in the final line of the GFF file. Since I am not concerned with mapping to CRISPR arrays, I deleted those lines.
+  This error occurs because a line of the GFF file is incomplete (e.g., missing the score information). This error only seems to occur for CRISPR arrays defined in the final line of the GFF file. Unless you are concerned with mapping to the arrays, we suggest deleting those line.
+
+* `error: 'unmatched quote'`
+
+  This error occurs because an annotation contains a (single) double quote. For example, `ADP-ribose 1"-phosphate phophatase related protein`. This error can be resolved by replacing the double quote with a single quote: `ADP-ribose 1'-phosphate phophatase related protein`.
 
 Validation of Fasta header files
 --
