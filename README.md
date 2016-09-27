@@ -63,8 +63,29 @@ If you are contributing scripts, workflows, or analysis to this repo, please pro
 The goal is to make your analysis fully reproducible. The documentation should enable another scientist to fully recreate your analysis and results! Feel free to check out other McMahon lab repos for README ideas.
 
 Repo Structure
---
-    project
-    |- README                                             # Overview of the repo and its contents
-    ||- scripts						  
-    ||- metadata					  # Metadata collected at each sampling timepoint
+
+    ├── README.md
+    ├── metadata
+    │   ├── OMD-TOIL_RNA_Metadata.csv               # RNA extractions
+    │   ├── PAR_data.csv
+    │   ├── YSI_data.csv
+    │   ├── field_checklist.csv
+    │   ├── filtering_plot_data.csv
+    │   ├── filtering_raw_data.csv
+    │   ├── nutrient_collection.csv
+    │   ├── secchi_data.csv
+    │   └── totalReads.csv                          # Total sequenced reads in each sample
+    ├── protocols                                   # Experimental protocols
+    │   ├── 01_Sample_collection
+    │   ├── 02_Internal_standard_addition
+    │   ├── 03_Sample_RNA_extraction
+    │   └── 04_Prokaryotic_Illumina_RNA_libraries
+    ├── scripts                                     # Computational analysis
+    │   ├── 05_Quality-filtering_trimming
+    │   ├── 06_rRNA_removal_in_silico
+    │   ├── 07_rRNAanalysis
+    │   ├── 08_mapping
+    │   │   ├── 08a_gffValidation
+    │   │   ├── 08b_uncompetitive
+    │   │   ├── 08c_competitive
+    │   └── 09_expressionProfiling
