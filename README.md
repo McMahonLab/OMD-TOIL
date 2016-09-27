@@ -7,7 +7,7 @@ All rights reserved.
 
 Overview
 --
-During August 20-21, 2015, the McMahon Lab carried out a 24 hour sampling of Lake Mendota. This repo describes the data and analysis associated with this expedition, known as OMD-TOIL (Operation Mendota Drain: Transcriptomics of Inland Lakes).
+During August 20-21, 2015, the McMahon and Forest Labs carried out a 24 hour sampling of Lake Mendota. This repo describes the data and analysis associated with this expedition, known as OMD-TOIL (Operation Mendota Drain: Transcriptomics of Inland Lakes).
 
 Samples were collected approximately every two hours from 6am on August 20 to 6am on August 21. A subset of samples were subject to RNA extraction, rRNA depletion, spiking with an internal standard, and sent to the [UW Biotech Center](https://www.biotech.wisc.edu/) for sequencing. Resulting sequences were subject to computational rRNA removal and downstream analysis.
 
@@ -21,20 +21,18 @@ Repo Table of Contents
 --
 This repo describes the following analyses. Clicking on each link will take you to the appropriate location.
 
-1. Sample collection
-2. Internal standard addition
-3. Sample RNA extraction
-4. cDNA synthesis & rRNA removal
-5. Library preparation
-6. DNA sequencing
-7. Quality-filtering & trimming
-8. rRNA removal in silico
-9. rRNA analysis
-10. [Mapping](scripts/10_mapping/README.md)  
-  10a. [Validation of GFF files](scripts/10_mapping/10a_gffValidation/README.md)  
-  10b. [Uncompetitive Mapping](scripts/10_mapping/10b_uncompetitive/README.md)  
-  10c. [Competitive Mapping](scripts/10_mapping/10c_competitive/README.md)
-11. [Expression Profiles](scripts/11_expressionProfiling/README.md)
+01. [Sample collection](protocols/01_Sample_collection/README.md)
+02. [Internal standard addition](protocols/02_Internal_standard_addition/README.md)
+03. [Sample RNA extraction](protocols/03_Sample_RNA_extraction/README.md)
+04. [rRNA removal, cDNA synthesis & library preparation](protocols/04_Prokaryotic_Illumina_RNA_libraries/README.md)
+05. [Quality-filtering & trimming](scripts/05_Quality-filtering_trimming/README.md)
+06. [rRNA removal in silico](scripts/06_rRNA_removal_in_silico/README.md)
+07. [rRNA analysis](scripts/07_rRNAanalysis/README.md)
+08. [Mapping](scripts/08_mapping/README.md)  
+  08a. [Validation of GFF files](scripts/08_mapping/08a_gffValidation/README.md)  
+  08b. [Uncompetitive Mapping](scripts/08_mapping/08b_uncompetitive/README.md)  
+  08c. [Competitive Mapping](scripts/08_mapping/08c_competitive/README.md)
+09. [Expression Profiles](scripts/09_expressionProfiling/README.md)
 
 Protocols associated with the __experimental__ steps (1 to 6) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
