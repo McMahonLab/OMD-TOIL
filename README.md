@@ -15,7 +15,7 @@ This repository ('repo') describes the experimental and analytical procedures as
 
 Data Organization
 --
-We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `/data_lakes/Metatranscriptomes/omd-toil` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOILv2) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
+We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `/data_lakes/Metatranscriptomes/omd-toil` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOIL) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
 
 Repo Table of Contents
 --
