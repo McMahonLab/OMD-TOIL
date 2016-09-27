@@ -7,7 +7,7 @@ All rights reserved.
 
 Overview
 --
-During August 20-21, 2015, the McMahon Lab carried out a 24 hour sampling of Lake Mendota. This repo describes the data and analysis associated with this expedition, known as OMD-TOIL (Operation Mendota Drain: Transcriptomics of Inland Lakes).
+During August 20-21, 2015, the McMahon and Forest Labs carried out a 24 hour sampling of Lake Mendota. This repo describes the data and analysis associated with this expedition, known as OMD-TOIL (Operation Mendota Drain: Transcriptomics of Inland Lakes).
 
 Samples were collected approximately every two hours from 6am on August 20 to 6am on August 21. A subset of samples were subject to RNA extraction, rRNA depletion, spiking with an internal standard, and sent to the [UW Biotech Center](https://www.biotech.wisc.edu/) for sequencing. Resulting sequences were subject to computational rRNA removal and downstream analysis.
 
@@ -15,28 +15,26 @@ This repository ('repo') describes the experimental and analytical procedures as
 
 Data Organization
 --
-We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `/data_lakes/Metatranscriptomes/omd-toil` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOILv2) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
+We have established separate locations for storage of data and analysis associated with this project. __Data__ are stored on the McMahon Lab's private server (Zissou) in the `/data_lakes/Metatranscriptomes/omd-toil` folder. __Protocols and scripts__ are stored in the [OMD-TOIL](https://github.com/McMahonLab/OMD-TOIL) repo on the McMahon Lab's GitHub account. A clone of this repo exists on Zissou, in `/home/shared/OMD-TOIL`. This folder also contains symbolic links to the data. That way, your scripts can access the data folder using the appropriate relative path within `/home/shared/OMD-TOIL`.
 
 Repo Table of Contents
 --
 This repo describes the following analyses. Clicking on each link will take you to the appropriate location.
 
-1. Sample collection
-2. Internal standard addition
-3. Sample RNA extraction
-4. cDNA synthesis & rRNA removal
-5. Library preparation
-6. DNA sequencing
-7. Quality-filtering & trimming
-8. rRNA removal in silico
-9. rRNA analysis
-10. [Mapping](scripts/10_mapping/README.md)  
-  10a. [Validation of GFF files](scripts/10_mapping/10a_gffValidation/README.md)  
-  10b. [Uncompetitive Mapping](scripts/10_mapping/10b_uncompetitive/README.md)  
-  10c. [Competitive Mapping](scripts/10_mapping/10c_competitive/README.md)
-11. [Expression Profiles](scripts/11_expressionProfiling/README.md)
+01. [Sample collection](protocols/01_Sample_collection/README.md)
+02. [Internal standard addition](protocols/02_Internal_standard_addition/README.md)
+03. [Sample RNA extraction](protocols/03_Sample_RNA_extraction/README.md)
+04. [rRNA removal, cDNA synthesis & library preparation](protocols/04_Prokaryotic_Illumina_RNA_libraries/README.md)
+05. [Quality-filtering & trimming](scripts/05_Quality-filtering_trimming/README.md)
+06. [rRNA removal in silico](scripts/06_rRNA_removal_in_silico/README.md)
+07. [rRNA analysis](scripts/07_rRNAanalysis/README.md)
+08. [Mapping](scripts/08_mapping/README.md)  
+  08a. [Validation of GFF files](scripts/08_mapping/08a_gffValidation/README.md)  
+  08b. [Uncompetitive Mapping](scripts/08_mapping/08b_uncompetitive/README.md)  
+  08c. [Competitive Mapping](scripts/08_mapping/08c_competitive/README.md)
+09. [Expression Profiles](scripts/09_expressionProfiling/README.md)
 
-Protocols associated with the __experimental__ steps (1 to 6) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
+Protocols associated with the __experimental__ steps (1 to 4) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
 How To Contribute
 --
@@ -65,8 +63,29 @@ If you are contributing scripts, workflows, or analysis to this repo, please pro
 The goal is to make your analysis fully reproducible. The documentation should enable another scientist to fully recreate your analysis and results! Feel free to check out other McMahon lab repos for README ideas.
 
 Repo Structure
---
-    project
-    |- README                                             # Overview of the repo and its contents
-    ||- scripts						  
-    ||- metadata					  # Metadata collected at each sampling timepoint
+
+    ├── README.md
+    ├── metadata
+    │   ├── OMD-TOIL_RNA_Metadata.csv               # RNA extractions
+    │   ├── PAR_data.csv
+    │   ├── YSI_data.csv
+    │   ├── field_checklist.csv
+    │   ├── filtering_plot_data.csv
+    │   ├── filtering_raw_data.csv
+    │   ├── nutrient_collection.csv
+    │   ├── secchi_data.csv
+    │   └── totalReads.csv                          # Total sequenced reads in each sample
+    ├── protocols                                   # Experimental protocols
+    │   ├── 01_Sample_collection
+    │   ├── 02_Internal_standard_addition
+    │   ├── 03_Sample_RNA_extraction
+    │   └── 04_Prokaryotic_Illumina_RNA_libraries
+    ├── scripts                                     # Computational analysis
+    │   ├── 05_Quality-filtering_trimming
+    │   ├── 06_rRNA_removal_in_silico
+    │   ├── 07_rRNAanalysis
+    │   ├── 08_mapping
+    │   │   ├── 08a_gffValidation
+    │   │   ├── 08b_uncompetitive
+    │   │   ├── 08c_competitive
+    │   └── 09_expressionProfiling

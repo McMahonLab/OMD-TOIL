@@ -12,9 +12,9 @@ Overview
 --
 This document outlines procedures for mapping metatranscriptomic reads to the McMahon lab's collection of reference genomes. The analysis occurred in three parts, each with its own documentation:
 
-  * [Validation of GFF files](10a_gffValidation/README.md)  
-  * [Uncompetitive mapping of reads](10b_uncompetitive/README.md)    
-  * [Competitive mapping of reads](10c_competitive/README.md)  
+  * [Validation of GFF files](08a_gffValidation/README.md)  
+  * [Uncompetitive mapping of reads](08b_uncompetitive/README.md)    
+  * [Competitive mapping of reads](08c_competitive/README.md)  
 
 This document gives a high-level overview of the mapping process. Refer to individual READMEs for each step for specific details.
 
