@@ -1,11 +1,12 @@
-## RNA extraction protocol with a combined Bead beating – TRIzol®– On column DNAse digestion procedure
-
-Copyright (c) 2016, McMahon Lab
-URL: https://mcmahonlab.wisc.edu/
-URL: https://github.com/McMahonLab/
+OMD-TOIL: RNA Extraction
+===
+Copyright (c) 2016, McMahon Lab  
+URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
+URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentation and analysis by Francisco Moya-Flores
+Documentation and analysis by Francisco Moya-Flores  
+URL: [https://github.com/fmoyaflores/](https://github.com/fmoyaflores/)  
 
 #### Sample digestion and nucleic acid extraction
 

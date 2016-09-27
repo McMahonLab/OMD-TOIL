@@ -1,11 +1,13 @@
-## Transcriptomics of Inland Lakes (TOIL) Sampling Procedures
-
-Copyright (c) 2016, McMahon Lab
-URL: https://mcmahonlab.wisc.edu/
-URL: https://github.com/McMahonLab/
+OMD-TOIL: Sampling Procedures
+===
+Copyright (c) 2016, McMahon Lab  
+URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
+URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentation and analysis by Robin Rohwer & Francisco Moya-Flores
+Documentation and analysis by Robin R. Rohwer and Francisco Moya-Flores  
+URL: [https://github.com/rrohwer/](https://github.com/rrohwer/)  
+URL: [https://github.com/fmoyaflores/](https://github.com/fmoyaflores/)  
 
 ### Contents
 
@@ -53,7 +55,6 @@ Whether on board or in the lab, all apparatus should be clean. Assemble the filt
 
 Filtration should not exceed ¾ of the pump speed in order to avoid high filtration pressure.
 
-
 #### Supplement - Sampling Protocol
 
 Initially, depth profile including temperature, pH, dissolved oxygen, and conductivity data must be collected at a maximum of 1-meter intervals. A thermocline exists if greater than 1°C change occurs within a depth change of 1 meter or less. Determination of the existence of a thermocline is essential for proper sampling for modeling.

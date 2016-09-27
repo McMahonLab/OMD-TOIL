@@ -1,11 +1,12 @@
-### DNA reads: Quality-filtering & Trimming
-
-Copyright (c) 2016, McMahon Lab
-URL: https://mcmahonlab.wisc.edu/
-URL: https://github.com/McMahonLab/
+OMD-TOIL: DNA reads: Quality-filtering & Trimming
+===
+Copyright (c) 2016, McMahon Lab  
+URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
+URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentation and analysis by Francisco Moya-Flores
+Documentation and analysis by Francisco Moya-Flores  
+URL: [https://github.com/fmoyaflores](https://github.com/fmoyaflores)  
 
 [FLASH](http://ccb.jhu.edu/software/FLASH/) (Fast Length Adjustment of SHort reads) is a very accurate and fast tool to merge paired-end reads that were generated from DNA fragments whose lengths are shorter than twice the length of reads. Merged read pairs result in unpaired longer reads. Longer reads are generally more desired in genome assembly and genome analysis processes. They can also improve transcriptome assembly when FLASH is used to merge RNA-seq data.
 

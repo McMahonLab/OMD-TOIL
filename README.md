@@ -34,7 +34,7 @@ This repo describes the following analyses. Clicking on each link will take you 
   08c. [Competitive Mapping](scripts/08_mapping/08c_competitive/README.md)
 09. [Expression Profiles](scripts/09_expressionProfiling/README.md)
 
-Protocols associated with the __experimental__ steps (1 to 6) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
+Protocols associated with the __experimental__ steps (1 to 4) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (7 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
 How To Contribute
 --

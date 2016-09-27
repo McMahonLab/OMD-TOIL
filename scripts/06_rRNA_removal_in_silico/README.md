@@ -1,12 +1,14 @@
-### Ribosomal RNA (rRNA) removal
-
-Copyright (c) 2016, McMahon Lab
-URL: https://mcmahonlab.wisc.edu/
-URL: https://github.com/McMahonLab/
+OMD-TOIL: DNA reads: Quality-filtering & Trimming
+===
+Copyright (c) 2016, McMahon Lab  
+URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
+URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentation and analysis by Francisco Moya-Flores
+Documentation and analysis by Francisco Moya-Flores  
+URL: [https://github.com/fmoyaflores](https://github.com/fmoyaflores)  Documentation and analysis by Francisco Moya-Flores
 
+#### Overview
 
 [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) is a biological sequence analysis tool for filtering, mapping and OTU-picking NGS reads. The core algorithm is based on approximate seeds and allows for fast and sensitive analyses of nucleotide sequences. The main application of SortMeRNA is filtering rRNA from metatranscriptomic data.
 
