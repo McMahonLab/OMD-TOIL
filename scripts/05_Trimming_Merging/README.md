@@ -1,4 +1,4 @@
-OMD-TOIL: Quality Control, Trimming, and Filtering
+OMD-TOIL: Trimming and Merging
 ===
 Copyright (c) 2016, McMahon Lab  
 URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
@@ -10,14 +10,18 @@ URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)
 
 Overview
 --
-This document outlines procedures for trimming and filtering metagenomic reads.
+This document outlines procedures for trimming and merging metagenomic reads.
 
 Prerequisites
 --
 Ensure the following software is installed:  
 
 * [Sickle](https://github.com/najoshi/sickle) - Determines quality and length thresholds for trimming, and trims reads.
+
+* FLASH: [Home Page](https://ccb.jhu.edu/software/FLASH/) and [Source Code](https://sourceforge.net/projects/flashpage/files/) - Merges paired-end reads.
+
 Ensure the following data are available:  
+--
 
 * `archivalData/MGs/sample_index_L00[0-9]_R[1-2]_001.fastq`, where `sample` is the sample ID, `index` is the barcode used for indexing, [0-9] is a digit referring to the lane number, and [1-2] are the unpaired ends.
 
@@ -47,3 +51,17 @@ Reads are trimmed using Sickle using default parameters. For convenience, the sc
     -t sanger
 
 where `folder` is one of the folders described above.
+
+
+Merging Paired Ends
+--
+
+Reads are merged using FLASH, with the `--max-overlap` parameter set to the read length. For convenience, the script `merge.py` will run the following command on each set of unpaired ends:
+
+    flash
+    archivalData/trimmed/sample_index_L00[0-9]_R1_001.fastq
+    archivalData/trimmed/sample_index_L00[0-9]_R2_001.fastq
+    -d archivalData/merged/sample
+    -M -readLength
+
+The script also moves the file containing the merged reads to `rawData` and renames it to `sample.fastq`.
