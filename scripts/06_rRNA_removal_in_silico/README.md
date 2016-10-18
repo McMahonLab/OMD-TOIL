@@ -1,89 +1,46 @@
-OMD-TOIL: DNA reads: Quality-filtering & Trimming
+OMD-TOIL: rRNA Removal
 ===
 Copyright (c) 2016, McMahon Lab  
 URL: [https://mcmahonlab.wisc.edu/](https://mcmahonlab.wisc.edu/)  
 URL: [https://github.com/McMahonLab/](https://github.com/McMahonLab/)  
 All rights reserved.
 
-Documentation and analysis by Francisco Moya-Flores  
-URL: [https://github.com/fmoyaflores](https://github.com/fmoyaflores)  Documentation and analysis by Francisco Moya-Flores
+Documentation and analysis by Francisco Moya-Flores and Joshua J. Hamilton  
+URL: [https://github.com/fmoyaflores/](https://github.com/fmoyaflores/)  
+URL: [https://github.com/joshamilton/](https://github.com/joshamilton/)
 
-#### Overview
+Prerequisites
+--
+Ensure the following software is installed:  
 
-[SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) is a biological sequence analysis tool for filtering, mapping and OTU-picking NGS reads. The core algorithm is based on approximate seeds and allows for fast and sensitive analyses of nucleotide sequences. The main application of SortMeRNA is filtering rRNA from metatranscriptomic data.
+* [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) - removes rRNA reads from metatranscriptomic sequences
 
 [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) takes as input a file of reads (fasta or fastq format) and one or multiple rRNA database file(s), and sorts apart rRNA and rejected reads into two files specified by the user. Optionally, it can provide high quality local alignments of rRNA reads against the rRNA database.
 
 The following scripts were taken from the [SortMeRNA User Manual 2.0](http://bioinfo.lifl.fr/RNA/sortmerna/code/SortMeRNA-user-manual-v2.0.pdf). The previous four fasta files generated with FLASH were used as input for [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/).
 
-##### Installation
+rRNA Removal
+--
+rRNA reads are removed using SortMeRNA. For convenience, the script `sortMeRNA.py` will run the following commands on each metatranscriptomic sample:
 
-Refer to [README](https://github.com/biocore/sortmerna/blob/master/README.md) file.
+First, index the reference databases for each metatranscriptome sample:
 
-##### Usage
+    indexdb_rna --ref pathToSortMeRNA/rRNA_databases/db#.fasta,pathToSortMeRNA/rRNA_databases/db#.idx
 
-###### Index multiple rRNA databases
-
-The executable indexdb rna indexes an rRNA database.
-```
-./indexdb_rna --ref db.fasta,db.idx [OPTIONS]
-```
-
-There are eight rRNA representative databases provided in the __sortmerna-2.0/rRNA databases__ folder. All databases were derived from the SILVA SSU and LSU databases (release 119) and the RFAM databases using HMMER 3.1b1 and SumaClust v1.0.00. Additionally, the user can index their own database.
-
-#### Example
-
-In the following example, indexdb rna was used with multiple databases. Multiple databases can be indexed simultaneously by passing them as a ‘:’ separated list to --ref (no spaces allowed).
-```
->./indexdb_rna --ref ./rRNA_databases/silva-bac-16s-id90.fasta,./index/silva-bac-16s-db:\
-./rRNA_databases/silva-bac-23s-id98.fasta,./index/silva-bac-23s-db:\
-./rRNA_databases/silva-arc-16s-id95.fasta,./index/silva-arc-16s-db:\
-./rRNA_databases/silva-arc-23s-id98.fasta,./index/silva-arc-23s-db:\
-./rRNA_databases/silva-euk-18s-id95.fasta,./index/silva-euk-18s-db:\
-./rRNA_databases/silva-euk-28s-id98.fasta,./index/silva-euk-28s:\
-./rRNA_databases/rfam-5s-database-id98.fasta,./index/rfam-5s-db:\
-./rRNA_databases/rfam-5.8s-database-id98.fasta,./index/rfam-5.8s-db
-
-```
-
-###### Filter rRNA reads
-
-The executable sortmerna can filter rRNA reads against an indexed rRNA database.
-
-#### Usage
-
-```
-./sortmerna --ref db.fasta,db.idx --reads file.fa --aligned base_name_output [OPTIONS]
-```
-
-In the following example, four samples contained in folder AHGJNTBCXX were automatically rRNA filtered with [SortMeRNA](http://bioinfo.lifl.fr/RNA/sortmerna/) through a bash script. Samples are listed below.
+where `db#` represents a database. The script identifies all databases present in `pathToSortMeRNA/rRNA_databases` and indexes them.
 
 
-MetaTranscriptomes_list_out_extendedFrags.txt
+Second, run SortMeRNA, using the just-indexed databaes to identify and remove rRNA:
 
-Sample name|File
---|--
-ME150263|ME150263.fastq
-ME150266|ME150266.fastq
-ME150283|ME150283.fastq
-ME150290|ME150290.fastq
+    sortMeRNA
+    --ref pathToSortMeRNA/rRNA_databases/db#.fasta,pathToSortMeRNA/rRNA_databases/db#.idx:pathToSortMeRNA/rRNA_databases/db#.fasta,pathToSortMeRNA/rRNA_databases/db#.idx
+    --reads archivalData/merged/sample/out.extendedFrags.fastq
+    --aligned archivalData/sortMeRNA/sample_rRNA
+    --other archivalData/sortMeRNA/sample_nor_rRNA
+    --fastx
+    -a 24
+    -v
 
-```
-#!/bin/bash
+where the argument to `--ref` is a `:`-delimited list of `db#.fasta,db#.idx` pairs and `-a` is the number of processors to use.
 
-for file in $(</MetaTranscriptomes_list_out_extendedFrags.txt)
-
-do
-
-time ./sortmerna --ref ./rRNA_databases/silva-bac-16s-id90.fasta,./index/silva-bac-16s-db:\
-./rRNA_databases/silva-bac-23s-id98.fasta,./index/silva-bac-23s-db:\
-./rRNA_databases/silva-arc-16s-id95.fasta,./index/silva-arc-16s-db:\
-./rRNA_databases/silva-arc-23s-id98.fasta,./index/silva-arc-23s-db:\
-./rRNA_databases/silva-euk-18s-id95.fasta,./index/silva-euk-18s-db:\
-./rRNA_databases/silva-euk-28s-id98.fasta,./index/silva-euk-28s:\
-./rRNA_databases/rfam-5s-database-id98.fasta,./index/rfam-5s-db:\
-./rRNA_databases/rfam-5.8s-database-id98.fasta,./index/rfam-5.8s-db\
- --reads /AHGJNTBCXX/out_extendedFrags/${file}.fastq --sam --num_alignments 1 --fastx --aligned /AHGJNTBCXX/out_extendedFrags/${file}_rRNA --other /AHGJNTBCXX/out_extendedFrags/${file}_non_rRNA --log -v -a 10
-
-done
-```
+The script also moves the file containing the non-rRNA reads to `rawData` and renames it to `sample.fastq`.
