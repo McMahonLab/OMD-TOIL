@@ -6,7 +6,7 @@
 # URL: http://http://mcmahonlab.wisc.edu/
 # All rights reserved.
 ################################################################################
-# Trim metagenomic reads using Sickle.
+# Trim reads using Sickle.
 # https://github.com/najoshi/sickle
 ################################################################################
 

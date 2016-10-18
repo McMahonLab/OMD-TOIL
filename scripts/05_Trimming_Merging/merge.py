@@ -6,8 +6,8 @@
 # URL: http://http://mcmahonlab.wisc.edu/
 # All rights reserved.
 ################################################################################
-# Trim metagenomic reads using Sickle.
-# https://github.com/najoshi/sickle
+# Merge reads using FLASH.
+# https://ccb.jhu.edu/software/FLASH/
 ################################################################################
 
 #%%#############################################################################

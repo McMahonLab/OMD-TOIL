@@ -6,8 +6,8 @@
 # URL: http://http://mcmahonlab.wisc.edu/
 # All rights reserved.
 ################################################################################
-# Trim metagenomic reads using Sickle.
-# https://github.com/najoshi/sickle
+# Remove rRNA from metatranscriptomes using SortMeRNA
+# http://bioinfo.lifl.fr/RNA/sortmerna/
 ################################################################################
 
 #%%#############################################################################
