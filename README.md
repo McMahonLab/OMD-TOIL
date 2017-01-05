@@ -32,13 +32,8 @@ This repo describes the following analyses. Clicking on each link will take you 
 05. [Quality-filtering & trimming](scripts/05_Quality-filtering_trimming/README.md)
 06. [rRNA removal in silico](scripts/06_rRNA_removal_in_silico/README.md)
 07. [rRNA analysis](scripts/07_rRNAanalysis/README.md)
-08. [Mapping](scripts/08_mapping/README.md)  
-  08a. [Validation of GFF files](scripts/08_mapping/08a_gffValidation/README.md)  
-  08b. [Uncompetitive Mapping](scripts/08_mapping/08b_uncompetitive/README.md)  
-  08c. [Competitive Mapping](scripts/08_mapping/08c_competitive/README.md)
-09. [Expression Profiles](scripts/09_expressionProfiling/README.md)
 
-Protocols associated with the __experimental__ steps (1 to 4) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (5 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`. __Steps 8 and 9 are out of date.__ Up-to-date protocols and expression profiling can be found in the [acI reverse ecology repository](https://github.com/joshamilton/Hamilton_acI_2016).
+Protocols associated with the __experimental__ steps (1 to 4) are in the __protocols__ folder. Scripts and workflows associated with the __computational__ steps (5 forward) are in the __scripts__ folder. Metadata about the samples are in the __metadata__ folder. Each step is contained within a numbered and named folder, such as `protocols/01_sample_collection`.
 
 How To Contribute
 --
@@ -88,8 +83,3 @@ Repo Structure
     │   ├── 05_Quality-filtering_trimming
     │   ├── 06_rRNA_removal_in_silico
     │   ├── 07_rRNAanalysis
-    │   ├── 08_mapping
-    │   │   ├── 08a_gffValidation
-    │   │   ├── 08b_uncompetitive
-    │   │   ├── 08c_competitive
-    │   └── 09_expressionProfiling
